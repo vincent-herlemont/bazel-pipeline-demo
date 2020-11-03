@@ -1,0 +1,5 @@
+---
+setups:
+  main:
+    public_env_dir: env
+    file: "./run.sh"
