@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/streadway/amqp"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 
@@ -57,6 +57,7 @@ func testMq() {
 		break
 	}
 }
+
 func main()  {
 	testSQL()
 	testMq()
