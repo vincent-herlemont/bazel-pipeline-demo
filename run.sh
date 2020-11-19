@@ -29,7 +29,7 @@ else
   echo "RABITTEMQ_IP : RABBITMQ_IP"
 
   cd ./server
-  # go run project.local/prepareGo/server
+  # go run project.local/prepareGo/server-
   bazel run server
   cd -
 fi

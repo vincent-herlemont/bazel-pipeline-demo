@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	println("client")
+	println("print from client :)")
 }

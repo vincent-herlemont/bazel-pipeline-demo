@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: client-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: client-dev
+        image: "docker.local:5000/pipline-demo/client:dev"
+      restartPolicy: Never
+  backoffLimit: 4

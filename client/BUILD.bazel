@@ -12,3 +12,26 @@ go_binary(
     embed = [":client_lib"],
     visibility = ["//visibility:public"],
 )
+
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+
+go_image(
+    name = "image",
+    srcs = ["client.go"],
+    importpath = "github.com/vincent-herlemont/pipeline-demo/client",
+)
+
+load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
+
+k8s_object(
+  name = "job",
+  kind = "Job",
+  cluster = "minikube",
+  template = "job.yaml",
+
+  images = {
+    "docker.local:5000/pipline-demo/client:dev": ":image"
+  },
+
+  visibility = ["//visibility:public"],
+)
