@@ -7,8 +7,8 @@ gazelle(name = "gazelle")
 filegroup(
     name = "all",
     srcs = [
-        "//client:client",
-        "//server:server"
+        "//client",
+        "//server",
     ],
 )
 
@@ -16,32 +16,25 @@ filegroup(
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 
 k8s_object(
-  name = "ingress",
-  kind = "Ingress",
-  cluster = "minikube",
-  template = "ingress.yaml",
+    name = "ingress",
+    cluster = "minikube",
+    kind = "Ingress",
+    template = "ingress.yaml",
 )
 
 load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")
+
 k8s_objects(
-   name = "jobs",
-   objects = [
-      "//client:job",
-   ]
+    name = "jobs",
+    objects = [
+        "//client:job",
+    ],
 )
 
 k8s_objects(
-   name = "deployments",
-   objects = [
-      "//server:deployment",
-   ]
-)
-
-k8s_objects(
-   name = "app",
-   objects = [
-      ":ingress",
-      ":jobs",
-      ":deployments",
-   ]
+    name = "apps",
+    objects = [
+        "//postgresql:app",
+        "//server:app",
+    ],
 )

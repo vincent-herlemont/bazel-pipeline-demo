@@ -1,32 +1,38 @@
 package main
 
 import (
-	// "database/sql"
+	"database/sql"
 	"fmt"
-	"net/http"
 	"log"
-	// "os"
+	"net/http"
+	"os"
+
 	// "github.com/streadway/amqp"
-	// _ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
+func testSQL() {
+	conStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		os.Getenv("PG_HOST"),
+		os.Getenv("PG_PORT"),
+		os.Getenv("PG_USER"),
+		os.Getenv("PG_PASSWORD"),
+		os.Getenv("PG_DBNAME"),
+	)
+	fmt.Println(conStr)
+	db, err := sql.Open("postgres", conStr)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer db.Close()
 
-// func testSQL() {
-// 	conStr :=  fmt.Sprintf("root:%s@tcp(%s:3306)/prepareGo",os.Getenv("MYSQL_ROOT_PASSWORD"),os.Getenv("MARIADB_IP"))
-// 	fmt.Println(conStr)
-// 	db, err := sql.Open("mysql",conStr)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// 	defer db.Close()
-
-// 	var version string
-// 	err = db.QueryRow("SELECT VERSION()").Scan(&version)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// 	fmt.Println("mariadb version", version)
-// }
+	var version string
+	err = db.QueryRow("SELECT VERSION()").Scan(&version)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("db version", version)
+}
 
 // func testMq() {
 // 	conStr := fmt.Sprintf("amqp://guest:guest@%s:5672/",os.Getenv("RABBITMQ_IP"))
@@ -61,14 +67,14 @@ import (
 // }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Golang server %s!\n", r.URL.Path[1:])
+	fmt.Fprintf(w, "Golang server %s!\n", r.URL.Path[1:])
 }
 
-func main()  {
-	// testSQL()
+func main() {
+	testSQL()
 	// testMq()
 	fmt.Println("server up ...")
-    http.HandleFunc("/", handler)
+	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("exit")
 }

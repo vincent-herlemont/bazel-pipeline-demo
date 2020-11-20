@@ -24,14 +24,12 @@ go_image(
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 
 k8s_object(
-  name = "job",
-  kind = "Job",
-  cluster = "minikube",
-  template = "job.yaml",
-
-  images = {
-    "docker.local:5000/pipline-demo/client:dev": ":image"
-  },
-
-  visibility = ["//visibility:public"],
+    name = "job",
+    cluster = "minikube",
+    images = {
+        "docker.local:5000/pipline-demo/client:dev": ":image",
+    },
+    kind = "Job",
+    template = "job.yaml",
+    visibility = ["//visibility:public"],
 )

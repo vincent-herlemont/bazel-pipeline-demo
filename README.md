@@ -27,7 +27,7 @@ minikube start --insecure-registry "docker.local:5000"
 
 - Open the dashboard with `$> minikube dashboard`. This web app allow to display the big picture of the k8s state.
 
-- Run all `bazel run //:app.apply`
+- Run all `bazel run //:apps.apply`
 
 - Reach [nginx-ingress](./ingress.yaml) IP, the entry point of all applications.
 
@@ -49,9 +49,10 @@ Golang server !!
 
 # TODO
 
-- [ ] (k8s) set up stateless postgresql
-- [ ] (go,bazel) connect to golang app server
-- [ ] (k8s) set up statefull postgresql
+- [X] (go,bazel) connect to golang app server
+- [X] (k8s) set up statefull postgresql
+
+- [ ] (go,bazel?,k8s) Test ? / Integration test
 
 - [ ] (k8s) set up stateless rabbitmq
 - [ ] (go,bazel) connect to golang app server
@@ -67,3 +68,9 @@ Golang server !!
 - Server1 JS(node) : Display form postgress
 - Service1 Go : Wait data from Client1 and send them to rabbitmqp.
 - Service2 Rust : Retrieved from rabbitmqp make store to Postgress.
+
+# Utils
+
+## Stern
+
+[Stern](https://github.com/wercker/stern) display pod log, example `stern <podname>`.

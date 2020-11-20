@@ -31,3 +31,23 @@ spec:
         image: "docker.local:5000/pipline-demo/server:dev"
         ports:
         - containerPort: 8080
+        env:
+          - name: PG_HOST
+            value: postgres
+          - name: PG_PORT
+            value: "5432"
+          - name: PG_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_USER
+          - name: PG_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_PASSWORD
+          - name: PG_DBNAME
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_DB

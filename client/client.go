@@ -1,5 +1,10 @@
 package main
 
+import "time"
+
 func main() {
-	println("print from client :)")
+	for {
+		println("print from client :)")
+		time.Sleep(1 * time.Second)
+	}
 }

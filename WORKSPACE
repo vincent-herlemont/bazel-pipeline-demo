@@ -22,17 +22,17 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_depe
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 go_repository(
-    name = "com_github_go_sql_driver_mysql",
-    importpath = "github.com/go-sql-driver/mysql",
-    sum = "h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gGcHOs=",
-    version = "v1.5.0",
-)
-
-go_repository(
     name = "com_github_streadway_amqp",
     importpath = "github.com/streadway/amqp",
     sum = "h1:kuuDrUJFZL1QYL9hUNuCxNObNzB0bV/ZG5jV3RWAQgo=",
     version = "v1.0.0",
+)
+
+go_repository(
+    name = "com_github_lib_pq",
+    importpath = "github.com/lib/pq",
+    sum = "h1:9xohqzkUwzR4Ga4ivdTcawVS89YSDVxXMa3xJX3cGzg=",
+    version = "v1.8.0",
 )
 
 go_rules_dependencies()
@@ -67,11 +67,11 @@ load(
 )
 
 container_pull(
-  name = "java_base",
-  registry = "gcr.io",
-  repository = "distroless/java",
-  # 'tag' is also supported, but digest is encouraged for reproducibility.
-  digest = "sha256:deadbeef",
+    name = "java_base",
+    # 'tag' is also supported, but digest is encouraged for reproducibility.
+    digest = "sha256:deadbeef",
+    registry = "gcr.io",
+    repository = "distroless/java",
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -84,13 +84,12 @@ load(
 
 _go_image_repos()
 
-
 # K8S
 http_archive(
     name = "io_bazel_rules_k8s",
+    sha256 = "773aa45f2421a66c8aa651b8cecb8ea51db91799a405bd7b913d77052ac7261a",
     strip_prefix = "rules_k8s-0.5",
     urls = ["https://github.com/bazelbuild/rules_k8s/archive/v0.5.tar.gz"],
-    sha256 = "773aa45f2421a66c8aa651b8cecb8ea51db91799a405bd7b913d77052ac7261a",
 )
 
 load("@io_bazel_rules_k8s//k8s:k8s.bzl", "k8s_repositories")
