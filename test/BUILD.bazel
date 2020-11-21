@@ -1,0 +1,19 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+
+# TODO try to build and run in k8s cluster
+# How to see the test result ? 
+#    Restart k8s job and monitor with Stern.
+py_binary(
+    name = "testbin",
+    srcs = ["test.py"],
+    main = "test.py",
+)
+
+# TODO try to run remotly in k8s cluster
+# - https://github.com/bazelbuild/remote-apis
+# - https://github.com/kubernetes/test-infra
+py_test(
+    name = "test",
+    srcs = ["test.py"],
+    main = "test.py",
+)

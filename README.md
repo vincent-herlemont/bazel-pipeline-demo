@@ -52,7 +52,7 @@ Golang server !!
 - [X] (go,bazel) connect to golang app server
 - [X] (k8s) set up statefull postgresql
 
-- [ ] (go,bazel?,k8s) Test ? / Integration test
+- [ ] (python,bazel?,k8s) Test ? / Integration test
 
 - [ ] (k8s) set up stateless rabbitmq
 - [ ] (go,bazel) connect to golang app server
