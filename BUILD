@@ -38,3 +38,10 @@ k8s_objects(
         "//server:app",
     ],
 )
+
+test_suite(
+    name = "integration",
+    tests = [
+        "//integration_test:test",
+    ],
+)

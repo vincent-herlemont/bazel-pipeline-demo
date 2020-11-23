@@ -22,6 +22,7 @@ minikube start --insecure-registry "docker.local:5000"
   - Edit `sudo vim /etc/hosts`
   - Add `docker.local` entry with the ip of the host `host.minikube.internal`
     - Entry example : `192.168.49.1    docker.local`
+  - /!\ You must do it after each time that minikube start.
 
 - Add ingress addon `$> minikube addons enable ingress`. Ingress allow to reach http services inside k8s.
 
@@ -52,7 +53,9 @@ Golang server !!
 - [X] (go,bazel) connect to golang app server
 - [X] (k8s) set up statefull postgresql
 
-- [ ] (python,bazel?,k8s) Test ? / Integration test
+- [x] (python,bazel,k8s) Test ? / Integration test
+- [ ] (go,bazel) Unit test
+- [ ] (bazel) Run all test
 
 - [ ] (k8s) set up stateless rabbitmq
 - [ ] (go,bazel) connect to golang app server
@@ -69,8 +72,15 @@ Golang server !!
 - Service1 Go : Wait data from Client1 and send them to rabbitmqp.
 - Service2 Rust : Retrieved from rabbitmqp make store to Postgress.
 
+# Tests
+
+- Requirements `google-auth`, install with command `pip install google-auth`
+
+- Run tests `bazel run //test:test`
+
 # Utils
 
 ## Stern
 
 [Stern](https://github.com/wercker/stern) display pod log, example `stern <podname>`.
+

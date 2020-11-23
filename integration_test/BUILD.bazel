@@ -1,0 +1,12 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@pip_deps//:requirements.bzl", "requirement")
+
+py_test(
+    name = "test",
+    srcs = ["test.py"],
+    main = "test.py",
+    deps = [
+        requirement("kubernetes"),
+    ],
+    visibility = ["//visibility:public"],
+)

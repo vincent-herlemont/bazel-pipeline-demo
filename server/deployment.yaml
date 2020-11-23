@@ -9,6 +9,7 @@ spec:
     targetPort: 8080
     protocol: TCP
     name: http
+    nodePort: 30001
   selector:
     app: goserver
 ---
