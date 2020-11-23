@@ -135,3 +135,10 @@ npm_install(
     package_lock_json = "//front:package-lock.json",
 )
 
+# JS (docker image)
+load(
+    "@io_bazel_rules_docker//nodejs:image.bzl",
+    _nodejs_image_repos = "repositories",
+)
+
+_nodejs_image_repos()
