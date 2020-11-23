@@ -4,7 +4,7 @@ import "time"
 
 func main() {
 	for {
-		println("print from client :)")
+		println("print from sensor :)")
 		time.Sleep(1 * time.Second)
 	}
 }

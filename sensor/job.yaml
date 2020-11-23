@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: client-dev
+  name: sensor-dev
 spec:
   template:
     spec:
       containers:
-      - name: client-dev
-        image: "docker.local:5000/pipline-demo/client:dev"
+      - name: sensor-dev
+        image: "docker.local:5000/pipline-demo/sensor:dev"
       restartPolicy: Never
   backoffLimit: 4

@@ -1,15 +1,15 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
-    name = "client_lib",
-    srcs = ["client.go"],
-    importpath = "github.com/vincent-herlemont/pipeline-demo/client",
+    name = "sensor_lib",
+    srcs = ["sensor.go"],
+    importpath = "github.com/vincent-herlemont/pipeline-demo/sensor",
     visibility = ["//visibility:private"],
 )
 
 go_binary(
-    name = "client",
-    embed = [":client_lib"],
+    name = "sensor",
+    embed = [":sensor_lib"],
     visibility = ["//visibility:public"],
 )
 
@@ -17,8 +17,8 @@ load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 
 go_image(
     name = "image",
-    srcs = ["client.go"],
-    importpath = "github.com/vincent-herlemont/pipeline-demo/client",
+    srcs = ["sensor.go"],
+    importpath = "github.com/vincent-herlemont/pipeline-demo/sensor",
 )
 
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
@@ -27,7 +27,7 @@ k8s_object(
     name = "job",
     cluster = "minikube",
     images = {
-        "docker.local:5000/pipline-demo/client:dev": ":image",
+        "docker.local:5000/pipline-demo/sensor:dev": ":image",
     },
     kind = "Job",
     template = "job.yaml",

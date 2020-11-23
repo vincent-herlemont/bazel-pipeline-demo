@@ -7,7 +7,7 @@ gazelle(name = "gazelle")
 filegroup(
     name = "builds",
     srcs = [
-        "//client",
+        "//sensor",
         "//server",
     ],
 )
@@ -27,7 +27,7 @@ load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")
 k8s_objects(
     name = "jobs",
     objects = [
-        "//client:job",
+        "//sensor:job",
     ],
 )
 
