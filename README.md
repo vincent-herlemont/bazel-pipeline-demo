@@ -1,8 +1,8 @@
 # Install
 
-- Install [bazel](https://docs.bazel.build/versions/master/install.html)
+- Install [bazel](https://docs.bazel.build/versions/master/install.html) and [ibazel](https://github.com/bazelbuild/bazel-watcher) for live reload.
 
-- Build all `$> bazel build //:builds`
+- Build all `$> bazel build //...`
 
 ## Get started (locally)
 
@@ -74,6 +74,11 @@ Example by executing only dispatcher unit tests.
 bazel run //dispatcher:app.apply && bazel test //dispatcher:test
 ```
 
+- Development front standalone. Start server development with live reload `ibazel`.
+```
+ibazel run //front:server
+```
+
 # TODO
 
 - [X] (go,bazel) connect to golang app dispatcher
@@ -83,11 +88,14 @@ bazel run //dispatcher:app.apply && bazel test //dispatcher:test
 - [x] (go,bazel) Unit test
 - [x] (bazel) Run all test
 
+- [x] (bazel,js) JS client standalone.
+- [ ] (bazel,react) Install react or nextjs.
+- [ ] (k8s) pods for front.
+
 - [ ] (k8s) set up stateless rabbitmq
 - [ ] (go,bazel) connect to golang app dispatcher
 - [ ] (k8s) add rabbitmq manager to ingress
 
-- [ ] (bazel,k8s,js) JS client
 - [ ] (bazel,k8s,rust) Rust Jobs (consume mqp message)
 
 # Drawing
@@ -102,3 +110,13 @@ bazel run //dispatcher:app.apply && bazel test //dispatcher:test
 
 [Stern](https://github.com/wercker/stern) display pod log, example `stern <podname>`.
 
+
+## Troubleshooting
+
+### JS
+
+Lock file update and generation have to do manually, emaple with `front` package.
+```bash
+cd ./front/
+npm i --package-lock-only`
+```

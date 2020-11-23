@@ -1,0 +1,16 @@
+load("@npm_front//http-server:index.bzl", "http_server")
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_web")
+
+pkg_web(
+    name = "app",
+    srcs = [
+        "index.html",
+        "index.js",
+    ],
+)
+
+http_server(
+    name = "server",
+    data = [":app"],
+    templated_args = ["front/app"],
+)

@@ -1,0 +1,21 @@
+{
+  "name": "front",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincent-herlemont/pipeline-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "@bazel/bazelisk": "latest",
+    "@bazel/ibazel": "latest",
+    "@bazel/buildifier": "latest"
+  }
+}

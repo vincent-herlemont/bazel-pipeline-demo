@@ -3,15 +3,6 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 # gazelle:prefix github.com/vincent-herlemont/pipeline-demo
 gazelle(name = "gazelle")
 
-# Build ALL
-filegroup(
-    name = "builds",
-    srcs = [
-        "//sensor",
-        "//dispatcher",
-    ],
-)
-
 # Create ingress k8s
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 
@@ -36,13 +27,5 @@ k8s_objects(
     objects = [
         "//postgresql:app",
         "//dispatcher:app",
-    ],
-)
-
-test_suite(
-    name = "tests",
-    tests = [
-        "//dispatcher:test",
-        "//integration_test:test",
     ],
 )

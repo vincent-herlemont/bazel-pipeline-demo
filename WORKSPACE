@@ -1,3 +1,9 @@
+workspace(
+    name = "pipeline_demo",
+    managed_directories = {"@npm": ["node_modules"]},
+)
+
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
@@ -113,3 +119,19 @@ pip_install(
    name = "pip_deps",
    requirements = "//integration_test:requirements.txt",
 )
+
+# JS
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    sha256 = "452bef42c4b2fbe0f509a2699ffeb3ae2c914087736b16314dbd356f3641d7e5",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.3.0/rules_nodejs-2.3.0.tar.gz"],
+)
+
+load("@build_bazel_rules_nodejs//:index.bzl", "npm_install")
+npm_install(
+    name = "npm_front",
+    package_json = "//front:package.json",
+    package_lock_json = "//front:package-lock.json",
+)
+
