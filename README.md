@@ -2,7 +2,7 @@
 
 - Install [bazel](https://docs.bazel.build/versions/master/install.html)
 
-- Build all `$> bazel build //:all`
+- Build all `$> bazel build //:builds`
 
 ## Get started (locally)
 
@@ -22,7 +22,7 @@ minikube start --insecure-registry "docker.local:5000"
   - Edit `sudo vim /etc/hosts`
   - Add `docker.local` entry with the ip of the host `host.minikube.internal`
     - Entry example : `192.168.49.1    docker.local`
-  - /!\ You must do it after each time that minikube start.
+  - ⚠️ You must do it after each time that minikube start.
 
 - Add ingress addon `$> minikube addons enable ingress`. Ingress allow to reach http services inside k8s.
 
@@ -46,7 +46,33 @@ nginx-ingress   <none>   *       192.168.49.2   80      13m
 $> curl http://192.168.49.2
 # Ouput : 
 Golang server !!
-``` 
+```
+
+
+## Tests
+
+- Requirements `google-auth`, install with command `pip install google-auth`
+
+- Run tests `bazel test //...`
+
+
+## Development
+
+Build, deploy and test (unit, and integration test)
+```
+bazel run //:apps.apply && bazel test //...
+```
+
+Need more faster 🚀! You can restrict the scope of build and deployment.
+Example by deploying only the server.
+```bash
+bazel run //server:app.apply && bazel test //...
+```
+You can also restrict tests.
+Example by executing only server unit tests.
+```bash
+bazel run //server:app.apply && bazel test //server:test
+```
 
 # TODO
 
@@ -54,8 +80,8 @@ Golang server !!
 - [X] (k8s) set up statefull postgresql
 
 - [x] (python,bazel,k8s) Test ? / Integration test
-- [ ] (go,bazel) Unit test
-- [ ] (bazel) Run all test
+- [x] (go,bazel) Unit test
+- [x] (bazel) Run all test
 
 - [ ] (k8s) set up stateless rabbitmq
 - [ ] (go,bazel) connect to golang app server
@@ -71,14 +97,6 @@ Golang server !!
 - Server1 JS(node) : Display form postgress
 - Service1 Go : Wait data from Client1 and send them to rabbitmqp.
 - Service2 Rust : Retrieved from rabbitmqp make store to Postgress.
-
-# Tests
-
-- Requirements `google-auth`, install with command `pip install google-auth`
-
-- Run tests `bazel run //test:test`
-
-# Utils
 
 ## Stern
 

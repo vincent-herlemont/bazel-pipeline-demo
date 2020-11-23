@@ -7,7 +7,7 @@ class TestGetNumber(unittest.TestCase):
   SERVICE_URL = ""
 
   def test_200(self):
-     response = requests.get(self.SERVICE_URL)
+     response = requests.get(self.SERVICE_URL+"/test")
      self.assertEqual(response.status_code,200)
 
 

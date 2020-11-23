@@ -5,7 +5,7 @@ gazelle(name = "gazelle")
 
 # Build ALL
 filegroup(
-    name = "all",
+    name = "builds",
     srcs = [
         "//client",
         "//server",
@@ -40,8 +40,9 @@ k8s_objects(
 )
 
 test_suite(
-    name = "integration",
+    name = "tests",
     tests = [
+        "//server:test",
         "//integration_test:test",
     ],
 )

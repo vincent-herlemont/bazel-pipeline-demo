@@ -8,5 +8,8 @@ py_test(
     deps = [
         requirement("kubernetes"),
     ],
+    data = [
+        "//server:server"
+    ],
     visibility = ["//visibility:public"],
 )

@@ -11,6 +11,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+func Sum(a int, b int) int {
+	return a + b
+}
+
 func testSQL() {
 	conStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		os.Getenv("PG_HOST"),
@@ -74,7 +78,7 @@ func main() {
 	testSQL()
 	// testMq()
 	fmt.Println("server up ...")
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/test", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("exit")
 }
