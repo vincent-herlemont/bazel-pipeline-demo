@@ -71,13 +71,13 @@ func testSQL() {
 // }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Golang server %s!\n", r.URL.Path[1:])
+	fmt.Fprintf(w, "Golang dispatcher %s!\n", r.URL.Path[1:])
 }
 
 func main() {
 	testSQL()
 	// testMq()
-	fmt.Println("server up ...")
+	fmt.Println("dispatcher up ....")
 	http.HandleFunc("/test", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("exit")

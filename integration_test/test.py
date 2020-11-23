@@ -12,5 +12,5 @@ class TestGetNumber(unittest.TestCase):
 
 
 if __name__ == '__main__':
-  TestGetNumber.SERVICE_URL = util.get_service_url("server")
+  TestGetNumber.SERVICE_URL = util.get_service_url("dispatcher")
   unittest.main()

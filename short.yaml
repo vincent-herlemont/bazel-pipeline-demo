@@ -3,9 +3,9 @@ setups:
   main:
     public_env_dir: env
     file: "./run.sh"
-  server:
-    public_env_dir: ./server/
-    file: ./server/run.sh
+  dispatcher:
+    public_env_dir: ./dispatcher/
+    file: ./dispatcher/run.sh
     array_vars:
       actions:
         format: "--action_env={key}={value}"

@@ -7,6 +7,6 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: server
+      name: dispatcher
       port:
         number: 8080

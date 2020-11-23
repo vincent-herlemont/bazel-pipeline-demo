@@ -8,7 +8,7 @@ filegroup(
     name = "builds",
     srcs = [
         "//sensor",
-        "//server",
+        "//dispatcher",
     ],
 )
 
@@ -35,14 +35,14 @@ k8s_objects(
     name = "apps",
     objects = [
         "//postgresql:app",
-        "//server:app",
+        "//dispatcher:app",
     ],
 )
 
 test_suite(
     name = "tests",
     tests = [
-        "//server:test",
+        "//dispatcher:test",
         "//integration_test:test",
     ],
 )

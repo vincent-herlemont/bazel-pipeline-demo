@@ -45,7 +45,7 @@ nginx-ingress   <none>   *       192.168.49.2   80      13m
 # Command :
 $> curl http://192.168.49.2
 # Ouput : 
-Golang server !!
+Golang dispatcher !!
 ```
 
 
@@ -64,19 +64,19 @@ bazel run //:apps.apply && bazel test //...
 ```
 
 Need more faster 🚀! You can restrict the scope of build and deployment.
-Example by deploying only the server.
+Example by deploying only the dispatcher.
 ```bash
-bazel run //server:app.apply && bazel test //...
+bazel run //dispatcher:app.apply && bazel test //...
 ```
 You can also restrict tests.
-Example by executing only server unit tests.
+Example by executing only dispatcher unit tests.
 ```bash
-bazel run //server:app.apply && bazel test //server:test
+bazel run //dispatcher:app.apply && bazel test //dispatcher:test
 ```
 
 # TODO
 
-- [X] (go,bazel) connect to golang app server
+- [X] (go,bazel) connect to golang app dispatcher
 - [X] (k8s) set up statefull postgresql
 
 - [x] (python,bazel,k8s) Test ? / Integration test
@@ -84,7 +84,7 @@ bazel run //server:app.apply && bazel test //server:test
 - [x] (bazel) Run all test
 
 - [ ] (k8s) set up stateless rabbitmq
-- [ ] (go,bazel) connect to golang app server
+- [ ] (go,bazel) connect to golang app dispatcher
 - [ ] (k8s) add rabbitmq manager to ingress
 
 - [ ] (bazel,k8s,js) JS client
@@ -92,11 +92,11 @@ bazel run //server:app.apply && bazel test //server:test
 
 # Drawing
 
-- Client1 Go : Capteur send data to Service1.
-- Client2 JS : Display DATA
-- Server1 JS(node) : Display form postgress
-- Service1 Go : Wait data from Client1 and send them to rabbitmqp.
-- Service2 Rust : Retrieved from rabbitmqp make store to Postgress.
+- `./senror` Go :  send data to Service1.
+- `./front` JS : Display DATA
+- `./back` JS(node) : Display form postgress
+- `./dispatcher` Go : Wait data from Client1 and send them to rabbitmqp.
+- `./consumer` Rust : Retrieved from rabbitmqp make store to Postgress.
 
 ## Stern
 

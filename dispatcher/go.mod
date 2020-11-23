@@ -1,4 +1,4 @@
-module project.local/prepareGo/server
+module project.local/prepareGo/dispatcher
 
 go 1.15
 

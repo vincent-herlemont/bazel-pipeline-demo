@@ -11,7 +11,7 @@ function containerIp {
 if [[ $1  == "db" ]]; then
   docker run --rm --name $mariadb_name -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD -d mariadb:10.5
   while ! echo exit | nc -z $(containerIp $mariadb_name) 3306; do sleep 1; done
-  docker exec -i $mariadb_name sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < ./server/sql/init.sql
+  docker exec -i $mariadb_name sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < ./dispatcher/sql/init.sql
 elif [[ $1 == "dbr" ]]; then
   docker stop $mariadb_name
 elif [[ $1 == "dbs" ]]; then
@@ -28,8 +28,8 @@ else
   export RABBITMQ_IP=$(containerIp $rabbitmq_name)
   echo "RABITTEMQ_IP : RABBITMQ_IP"
 
-  cd ./server
-  # go run project.local/prepareGo/server-
-  bazel run server
+  cd ./dispatcher
+  # go run project.local/prepareGo/dispatcher-
+  bazel run dispatcher
   cd -
 fi

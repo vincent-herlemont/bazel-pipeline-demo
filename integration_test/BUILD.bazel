@@ -9,7 +9,7 @@ py_test(
         requirement("kubernetes"),
     ],
     data = [
-        "//server:server"
+        "//dispatcher:dispatcher"
     ],
     visibility = ["//visibility:public"],
 )

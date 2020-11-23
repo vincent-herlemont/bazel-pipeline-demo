@@ -13,7 +13,7 @@ def get_service_url(service):
   c = client.CoreV1Api()
   data = c.list_service_for_all_namespaces()
   try:
-    node_port = [ item.spec.ports[0].node_port for item in data.items if item.metadata.name == "server"][0]
+    node_port = [ item.spec.ports[0].node_port for item in data.items if item.metadata.name == "dispatcher"][0]
   except:
     print("fail to get node service port !")
   
