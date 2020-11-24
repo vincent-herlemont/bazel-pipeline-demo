@@ -84,17 +84,29 @@ ibazel run //front:server
 - [X] (go,bazel) connect to golang app dispatcher
 - [X] (k8s) set up statefull postgresql
 
+---
+
 - [x] (python,bazel,k8s) Test ? / Integration test
 - [x] (go,bazel) Unit test
 - [x] (bazel) Run all test
 
+---
+
 - [x] (bazel,js) JS client standalone.
 - [ ] (bazel,react) Install react or nextjs.
+  - NextJS
+    - Create a build and deployment production workflow with command `next build` + `next start` and package to image.
+  - ReactJS
+    - Build with bazel react rules and package to image.
 - [ ] (k8s) pods for front.
+
+---
 
 - [ ] (k8s) set up stateless rabbitmq
 - [ ] (go,bazel) connect to golang app dispatcher
 - [ ] (k8s) add rabbitmq manager to ingress
+
+---
 
 - [ ] (bazel,k8s,rust) Rust Jobs (consume mqp message)
 
@@ -103,6 +115,7 @@ ibazel run //front:server
 - `./senror` Go :  send data to Service1.
 - `./front` JS : Display DATA
 - `./back` JS(node) : Display form postgress
+- `./web` (JS & Node) : Try to replace with SSR react framworks like NextJS
 - `./dispatcher` Go : Wait data from Client1 and send them to rabbitmqp.
 - `./consumer` Rust : Retrieved from rabbitmqp make store to Postgress.
 

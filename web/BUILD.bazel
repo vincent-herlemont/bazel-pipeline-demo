@@ -1,0 +1,55 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
+
+container_image(
+    name = "pre_data_image",
+    base = "@node//image",
+    directory = "/home/node",
+    files = [
+        "//web:pages",
+        "//web:public",
+        "//web:styles",
+        "//web:package.json",
+        "//web:package-lock.json",
+        "//web:index.js",
+    ],
+)
+
+container_run_and_commit(
+    name = "data_image",
+    commands = [
+        "chown -R node:node /home/node",
+        "chmod +w -R /home/node",
+    ],
+    image = ":pre_data_image.tar",
+)
+
+container_image(
+    name = "pre_build_image",
+    base = ":data_image",
+)
+
+container_run_and_commit(
+    name = "build_image",
+    commands = [
+        "cd ~",
+        "echo 'test' > ./test.txt",
+        "npm install --no-save",
+        "npm run build"
+    ],
+    docker_run_flags = [
+        "-u",
+        "node",
+    ],
+    image = ":pre_build_image.tar",
+)
+
+container_image(
+    name = "image",
+    base = ":build_image",
+    cmd = ["run","start"],
+    entrypoint = ["npm"],
+    user = "node",
+    workdir = "/home/node",
+    legacy_run_behavior = False,
+)

@@ -3,9 +3,43 @@ workspace(
     managed_directories = {"@npm": ["node_modules"]},
 )
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# DOCKER
+http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "1698624e878b0607052ae6131aa216d45ebb63871ec497f26c67455b34119c80",
+    strip_prefix = "rules_docker-0.15.0",
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.15.0/rules_docker-v0.15.0.tar.gz"],
+)
+
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+
+container_repositories()
+
+load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
+
+container_deps()
+
+load(
+    "@io_bazel_rules_docker//container:container.bzl",
+    "container_pull",
+)
+
+container_pull(
+    name = "node",
+    registry = "index.docker.io",
+    repository = "node",
+    tag = "15.3.0-alpine3.12",
+    digest = "sha256:ef59ec90488721c328840859aea0d6992601f8767d5772985026fbcf648a7a41",
+)
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+# Go
 http_archive(
     name = "io_bazel_rules_go",
     sha256 = "207fad3e6689135c5d8713e5a17ba9d1290238f47b9ba545b63d9303406209c6",
@@ -47,42 +81,7 @@ go_register_toolchains()
 
 gazelle_dependencies()
 
-# DOCKER
-
-http_archive(
-    name = "io_bazel_rules_docker",
-    sha256 = "1698624e878b0607052ae6131aa216d45ebb63871ec497f26c67455b34119c80",
-    strip_prefix = "rules_docker-0.15.0",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.15.0/rules_docker-v0.15.0.tar.gz"],
-)
-
-load(
-    "@io_bazel_rules_docker//repositories:repositories.bzl",
-    container_repositories = "repositories",
-)
-
-container_repositories()
-
-load("@io_bazel_rules_docker//repositories:deps.bzl", container_deps = "deps")
-
-container_deps()
-
-load(
-    "@io_bazel_rules_docker//container:container.bzl",
-    "container_pull",
-)
-
-container_pull(
-    name = "java_base",
-    # 'tag' is also supported, but digest is encouraged for reproducibility.
-    digest = "sha256:deadbeef",
-    registry = "gcr.io",
-    repository = "distroless/java",
-)
-
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
-# Docker Go image
+# Go (docker image)
 load(
     "@io_bazel_rules_docker//go:image.bzl",
     _go_image_repos = "repositories",
@@ -133,6 +132,11 @@ npm_install(
     name = "npm_front",
     package_json = "//front:package.json",
     package_lock_json = "//front:package-lock.json",
+)
+npm_install(
+    name = "npm_web",
+    package_json = "//web:package.json",
+    package_lock_json = "//web:package-lock.json",
 )
 
 # JS (docker image)
