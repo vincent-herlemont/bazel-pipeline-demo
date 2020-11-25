@@ -27,5 +27,6 @@ k8s_objects(
     objects = [
         "//postgresql:app",
         "//dispatcher:app",
+        "//web:app",
     ],
 )
