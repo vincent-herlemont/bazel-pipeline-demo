@@ -95,9 +95,8 @@ ibazel run //front:server
 - [x] (bazel,js) JS client standalone.
 - [ ] (bazel,react) Install react or nextjs.
   - NextJS
-    - Create a build and deployment production workflow with command `next build` + `next start` and package to image.
-  - ReactJS
-    - Build with bazel react rules and package to image.
+    - [X] Create a build and deployment production workflow with command `next build` + `next start` and package to image.
+    - [ ] Create development workflow
 - [ ] (k8s) pods for front.
 
 ---

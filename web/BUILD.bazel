@@ -1,25 +1,38 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
 
+
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar", "pkg_deb")
+
+pkg_tar(
+    name = "bin",
+    strip_prefix = ".", # Use for avoid to strip all prefix.
+    srcs = glob([
+            "pages/**/*",
+            "public/**/*",
+            "styles/**/*",
+        ]) + [
+            "package.json",
+            "package-lock.json",
+        ],
+    mode = "0755",
+)
+
 container_image(
     name = "pre_data_image",
     base = "@node//image",
     directory = "/home/node",
-    files = [
-        "//web:pages",
-        "//web:public",
-        "//web:styles",
-        "//web:package.json",
-        "//web:package-lock.json",
-        "//web:index.js",
-    ],
+    files = [ ":bin.tar" ],
 )
 
 container_run_and_commit(
     name = "data_image",
     commands = [
-        "chown -R node:node /home/node",
-        "chmod +w -R /home/node",
+        "cd /home/node",
+        "tar -xvf bin.tar",
+        "rm bin.tar",
+        "chown -R node:node .",
+        "chmod +w -R .",
     ],
     image = ":pre_data_image.tar",
 )
