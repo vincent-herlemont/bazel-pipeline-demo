@@ -1,0 +1,8 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+
+py_binary(
+    name = "get_service_url",
+    srcs = ["get_service_url.py"],
+    deps = ["//util"],
+    visibility = ["//visibility:public"],
+)
