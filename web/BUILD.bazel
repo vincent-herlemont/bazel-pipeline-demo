@@ -1,19 +1,26 @@
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
 
-
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar", "pkg_deb")
+
+# TODO remove : debug
+sh_binary(
+    name = "dev",
+    srcs = ["run.sh"],
+)
 
 pkg_tar(
     name = "bin",
     strip_prefix = ".", # Use for avoid to strip all prefix.
     srcs = glob([
+            "components/**/*",
             "pages/**/*",
             "public/**/*",
             "styles/**/*",
         ]) + [
             "package.json",
             "package-lock.json",
+            ".env.local", # Replace env file by generated one with k8s value.
         ],
     mode = "0755",
 )
@@ -46,7 +53,6 @@ container_run_and_commit(
     name = "build_image",
     commands = [
         "cd ~",
-        "echo 'test' > ./test.txt",
         "npm install --no-save",
         "npm run build"
     ],
