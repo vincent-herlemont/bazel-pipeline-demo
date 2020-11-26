@@ -115,8 +115,8 @@ http_archive(
 
 load("@rules_python//python:pip.bzl", "pip_install")
 pip_install(
-   name = "pip_deps",
-   requirements = "//integration_test:requirements.txt",
+   name = "util_deps",
+   requirements = "//util:requirements.txt",
 )
 
 # JS

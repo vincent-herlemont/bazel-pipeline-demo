@@ -2,7 +2,6 @@ import requests
 import unittest
 import util
 
-
 class TestGetNumber(unittest.TestCase):
   SERVICE_URL = ""
 
