@@ -30,3 +30,12 @@ k8s_objects(
         "//web:app",
     ],
 )
+
+k8s_objects(
+    name = "all",
+    objects = [
+        ":ingress",
+        ":apps",
+        ":jobs",
+    ],
+)

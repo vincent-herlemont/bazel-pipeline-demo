@@ -1,8 +1,12 @@
 load("@rules_python//python:defs.bzl", "py_binary")
+load("@util_tools_deps//:requirements.bzl", "requirement")
 
 py_binary(
-    name = "get_service_url",
-    srcs = ["get_service_url.py"],
-    deps = ["//util"],
+    name = "tools",
+    srcs = ["tools.py"],
+    deps = [
+        "//util",
+        requirement("click"),
+    ],
     visibility = ["//visibility:public"],
 )

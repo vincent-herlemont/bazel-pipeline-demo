@@ -28,7 +28,7 @@ minikube start --insecure-registry "docker.local:5000"
 
 - Open the dashboard with `$> minikube dashboard`. This web app allow to display the big picture of the k8s state.
 
-- Run all `bazel run //:apps.apply`
+- Run all `bazel run //:all.create`
 
 - Reach [nginx-ingress](./ingress.yaml) IP, the entry point of all applications.
 
@@ -74,9 +74,12 @@ Example by executing only dispatcher unit tests.
 bazel run //dispatcher:app.apply && bazel test //dispatcher:test
 ```
 
-- Development front standalone. Start server development with live reload `ibazel`.
+- Development front standalone. Use NextJS with endpoint mapping from localcluster.
 ```
-ibazel run //front:server
+$> ./web/run.sh
+...
+ready - started server on http://localhost:3000
+...
 ```
 
 # TODO
@@ -93,35 +96,53 @@ ibazel run //front:server
 ---
 
 - [x] (bazel,js) JS client standalone.
-- [ ] (bazel,react) Install react or nextjs.
+- [x] (bazel,react) Install react or nextjs.
   - NextJS
-    - [X] Create a build and deployment production workflow with command `next build` + `next start` and package to image.
-    - [ ] Create development workflow
-- [ ] (k8s) pods for front.
+    - [x] Create a build and deployment production workflow with command `next build` + `next start` and package to image.
+    - [x] Create development workflow
+---
+
+- [ ] (k8s) set up stateless rabbitmq.
+- [ ] (rust,bazel) create consumer service.
+...
 
 ---
 
-- [ ] (k8s) set up stateless rabbitmq
-- [ ] (go,bazel) connect to golang app dispatcher
-- [ ] (k8s) add rabbitmq manager to ingress
+- [ ] (apollo,js) create graphql endpoint
+...
 
 ---
-
-- [ ] (bazel,k8s,rust) Rust Jobs (consume mqp message)
 
 # Drawing
 
-- `./senror` Go :  send data to Service1.
-- `./front` JS : Display DATA
-- `./back` JS(node) : Display form postgress
-- `./web` (JS & Node) : Try to replace with SSR react framworks like NextJS
-- `./dispatcher` Go : Wait data from Client1 and send them to rabbitmqp.
-- `./consumer` Rust : Retrieved from rabbitmqp make store to Postgress.
+- `./senror` Go : Send data to dispatcher.
+- `./dispatcher` Go : Wait data from sensor(s) and send them to rabbitmqp.
+- `./consumer` Rust : Retrieved from rabbitmqp store data to Postgresql.
+- `./graphql` Node/Apollo : Create api from Postgresql data.
+- `./web` (JS & Node) : Display data from graphql endpoint. (Can be outsourced of the cluster, hosted by Vercel for example).
 
-## Stern
+## Tools
 
-[Stern](https://github.com/wercker/stern) display pod log, example `stern <podname>`.
+### Log 
 
+Local/Remote stream log : [Stern](https://github.com/wercker/stern) display pod log, example `stern <podname>`.
+
+### Cli
+
+Package `//util/tools` provide some shortcuts for get service urls or cluster urls in development mode. 
+```bash
+$> cd <project WORKSPACE path>
+$> bazel build //util/tools
+$> ./bazel-bin/util/tools/tools
+Usage: tools.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  get-cluster-url
+  get-service-url
+```
 
 ## Troubleshooting
 

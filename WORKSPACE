@@ -118,6 +118,10 @@ pip_install(
    name = "util_deps",
    requirements = "//util:requirements.txt",
 )
+pip_install(
+   name = "util_tools_deps",
+   requirements = "//util/tools:requirements.txt",
+)
 
 # JS
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")

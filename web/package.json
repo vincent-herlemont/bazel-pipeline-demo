@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "EXTERN_ENV=$EXTERN_ENV NEXT_PUBLIC_EXTERN_ENV=$ next dev",
+    "dev": "NEXT_PUBLIC_API_ENDPOINT=$NEXT_PUBLIC_API_ENDPOINT next dev",
     "build": "next build",
     "start": "next start"
   },
