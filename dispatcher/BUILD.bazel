@@ -5,7 +5,10 @@ go_library(
     srcs = ["dispatcher.go"],
     importpath = "github.com/vincent-herlemont/pipeline-demo/dispatcher",
     visibility = ["//visibility:private"],
-    deps = ["@com_github_lib_pq//:go_default_library"],
+    deps = [
+        "@com_github_lib_pq//:go_default_library",
+        "@com_github_streadway_amqp//:go_default_library",
+    ],
 )
 
 go_binary(
@@ -26,7 +29,10 @@ go_image(
     name = "image",
     srcs = ["dispatcher.go"],
     importpath = "github.com/vincent-herlemont/pipeline-demo/dispatcher",
-    deps = ["@com_github_lib_pq//:go_default_library"],
+    deps = [
+        "@com_github_lib_pq//:go_default_library",
+        "@com_github_streadway_amqp//:go_default_library",
+    ],
 )
 
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")

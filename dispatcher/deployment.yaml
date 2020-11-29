@@ -21,7 +21,7 @@ spec:
   selector:
     matchLabels:
       app: godispatcher
-  replicas: 2
+  replicas: 5
   template:
     metadata:
       labels:
@@ -52,3 +52,6 @@ spec:
               configMapKeyRef:
                 name: postgres-config
                 key: POSTGRES_DB
+          - name: AMQP_HOST
+            value: rabbitmq
+                

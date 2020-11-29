@@ -102,7 +102,7 @@ ready - started server on http://localhost:3000
     - [x] Create development workflow
 ---
 
-- [ ] (k8s) set up stateless rabbitmq.
+- [x] (k8s) set up stateless rabbitmq.
 - [ ] (rust,bazel) create consumer service.
 ...
 
