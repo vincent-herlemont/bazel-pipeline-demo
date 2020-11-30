@@ -1,0 +1,60 @@
+"""
+@generated
+cargo-raze crate build file.
+
+DO NOT EDIT! Replaced on runs of cargo-raze
+"""
+
+# buildifier: disable=load
+load(
+    "@io_bazel_rules_rust//rust:rust.bzl",
+    "rust_binary",
+    "rust_library",
+    "rust_test",
+)
+
+# buildifier: disable=load
+load("@bazel_skylib//lib:selects.bzl", "selects")
+
+package(default_visibility = [
+    # Public for visibility by "@raze__crate__version//" targets.
+    #
+    # Prefer access through "//consumer/cargo", which limits external
+    # visibility to explicit Cargo.toml dependencies.
+    "//visibility:public",
+])
+
+licenses([
+    "restricted",  # BSD-2-Clause from expression "BSD-2-Clause"
+])
+
+# Generated Targets
+
+rust_library(
+    name = "pinky_swear",
+    srcs = glob(["**/*.rs"]),
+    crate_features = [
+    ],
+    crate_root = "src/lib.rs",
+    crate_type = "lib",
+    data = ["README.md"],
+    edition = "2018",
+    rustc_flags = [
+        "--cap-lints=allow",
+    ],
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+    version = "4.4.0",
+    # buildifier: leave-alone
+    deps = [
+        "@raze__doc_comment__0_3_3//:doc_comment",
+        "@raze__parking_lot__0_11_1//:parking_lot",
+        "@raze__tracing__0_1_22//:tracing",
+    ],
+)
+
+# Unsupported target "broadcast" with type "test" omitted
+
+# Unsupported target "chain" with type "test" omitted

@@ -25,7 +25,7 @@ package(default_visibility = [
 ])
 
 licenses([
-    "notice",  # MIT from expression "MIT OR Apache-2.0"
+    "restricted",  # BSD-2-Clause from expression "BSD-2-Clause"
 ])
 
 # Generated Targets# buildifier: disable=load-on-top
@@ -35,18 +35,16 @@ load(
 )
 
 cargo_build_script(
-    name = "libc_build_script",
+    name = "amq_protocol_build_script",
     srcs = glob(["**/*.rs"]),
     build_script_env = {
     },
     crate_features = [
-        "align",
-        "default",
-        "std",
+        "native-tls",
     ],
     crate_root = "build.rs",
     data = glob(["**"]),
-    edition = "2015",
+    edition = "2018",
     rustc_flags = [
         "--cap-lints=allow",
     ],
@@ -54,23 +52,21 @@ cargo_build_script(
         "cargo-raze",
         "manual",
     ],
-    version = "0.2.80",
+    version = "6.0.2",
     visibility = ["//visibility:private"],
     deps = [
     ],
 )
 
 rust_library(
-    name = "libc",
+    name = "amq_protocol",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "align",
-        "default",
-        "std",
+        "native-tls",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
-    edition = "2015",
+    edition = "2018",
     rustc_flags = [
         "--cap-lints=allow",
     ],
@@ -78,11 +74,14 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.2.80",
+    version = "6.0.2",
     # buildifier: leave-alone
     deps = [
-        ":libc_build_script",
+        ":amq_protocol_build_script",
+        "@raze__amq_protocol_tcp__6_0_2//:amq_protocol_tcp",
+        "@raze__amq_protocol_types__6_0_2//:amq_protocol_types",
+        "@raze__amq_protocol_uri__6_0_2//:amq_protocol_uri",
+        "@raze__cookie_factory__0_3_1//:cookie_factory",
+        "@raze__nom__6_0_1//:nom",
     ],
 )
-
-# Unsupported target "const_fn" with type "test" omitted

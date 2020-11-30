@@ -6,5 +6,6 @@ rust_binary(
     deps = [
         "//consumer/cargo:log",
         "//consumer/cargo:env_logger",
+        "//consumer/cargo:lapin",
     ],
 )

@@ -1,0 +1,56 @@
+"""
+@generated
+cargo-raze crate build file.
+
+DO NOT EDIT! Replaced on runs of cargo-raze
+"""
+
+# buildifier: disable=load
+load(
+    "@io_bazel_rules_rust//rust:rust.bzl",
+    "rust_binary",
+    "rust_library",
+    "rust_test",
+)
+
+# buildifier: disable=load
+load("@bazel_skylib//lib:selects.bzl", "selects")
+
+package(default_visibility = [
+    # Public for visibility by "@raze__crate__version//" targets.
+    #
+    # Prefer access through "//consumer/cargo", which limits external
+    # visibility to explicit Cargo.toml dependencies.
+    "//visibility:public",
+])
+
+licenses([
+    "restricted",  # BSD-2-Clause from expression "BSD-2-Clause"
+])
+
+# Generated Targets
+
+rust_library(
+    name = "amq_protocol_tcp",
+    srcs = glob(["**/*.rs"]),
+    crate_features = [
+        "native-tls",
+    ],
+    crate_root = "src/lib.rs",
+    crate_type = "lib",
+    edition = "2018",
+    rustc_flags = [
+        "--cap-lints=allow",
+    ],
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+    version = "6.0.2",
+    # buildifier: leave-alone
+    deps = [
+        "@raze__amq_protocol_uri__6_0_2//:amq_protocol_uri",
+        "@raze__tcp_stream__0_20_6//:tcp_stream",
+        "@raze__tracing__0_1_22//:tracing",
+    ],
+)

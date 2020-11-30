@@ -25,7 +25,7 @@ package(default_visibility = [
 ])
 
 licenses([
-    "notice",  # MIT from expression "MIT OR Apache-2.0"
+    "notice",  # MIT from expression "MIT"
 ])
 
 # Generated Targets# buildifier: disable=load-on-top
@@ -35,16 +35,13 @@ load(
 )
 
 cargo_build_script(
-    name = "libc_build_script",
+    name = "openssl_sys_build_script",
     srcs = glob(["**/*.rs"]),
     build_script_env = {
     },
     crate_features = [
-        "align",
-        "default",
-        "std",
     ],
-    crate_root = "build.rs",
+    crate_root = "build/main.rs",
     data = glob(["**"]),
     edition = "2015",
     rustc_flags = [
@@ -54,19 +51,19 @@ cargo_build_script(
         "cargo-raze",
         "manual",
     ],
-    version = "0.2.80",
+    version = "0.9.58",
     visibility = ["//visibility:private"],
     deps = [
+        "@raze__autocfg__1_0_1//:autocfg",
+        "@raze__cc__1_0_65//:cc",
+        "@raze__pkg_config__0_3_19//:pkg_config",
     ],
 )
 
 rust_library(
-    name = "libc",
+    name = "openssl_sys",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "align",
-        "default",
-        "std",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
@@ -78,11 +75,10 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.2.80",
+    version = "0.9.58",
     # buildifier: leave-alone
     deps = [
-        ":libc_build_script",
+        ":openssl_sys_build_script",
+        "@raze__libc__0_2_80//:libc",
     ],
 )
-
-# Unsupported target "const_fn" with type "test" omitted

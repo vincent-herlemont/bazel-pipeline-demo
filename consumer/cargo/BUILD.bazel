@@ -22,6 +22,15 @@ alias(
 )
 
 alias(
+    name = "lapin",
+    actual = "@raze__lapin__1_6_1//:lapin",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
     name = "log",
     actual = "@raze__log__0_4_11//:log",
     tags = [
