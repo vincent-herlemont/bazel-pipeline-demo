@@ -166,7 +166,7 @@ http_archive(
 
 load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
 
-rust_repositories(version = "1.47.0")
+rust_repositories(version = "1.48.0", edition="2018")
 
 load("@io_bazel_rules_rust//:workspace.bzl", "rust_workspace")
 

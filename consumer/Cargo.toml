@@ -5,9 +5,7 @@ version = "0.0.1"
 [dependencies]
 log = { version = "0.4.11", features = ["std"] }
 env_logger = "0.8.2"
-lapin = "1.6.1"
-#mio = { version = "0.7", features = ["net", "os-poll"] }
-#pinky-swear = "5.0.1"
+lapin = { version = "1.6.1" }
 
 [[bin]]
 name = "consumer"
