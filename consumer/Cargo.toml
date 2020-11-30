@@ -1,0 +1,18 @@
+[package]
+name = "consumer"
+version = "0.0.1"
+
+[dependencies]
+log = { version = "0.4.11", features = ["std"] }
+env_logger = "0.8.2"
+
+[[bin]]
+name = "consumer"
+path = "main.rs"
+
+[package.metadata.raze]
+workspace_path = "//consumer/cargo"
+# Warning: Set bazel build not hermetic.
+default_gen_buildrs = true
+genmode = "Remote"
+target = "x86_64-unknown-linux-gnu"
