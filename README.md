@@ -103,8 +103,7 @@ ready - started server on http://localhost:3000
 ---
 
 - [x] (k8s) set up stateless rabbitmq.
-- [ ] (rust,bazel) create consumer service.
-...
+- [x] (rust,bazel) create consumer service.
 
 ---
 

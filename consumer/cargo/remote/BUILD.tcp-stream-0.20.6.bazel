@@ -39,6 +39,7 @@ rust_library(
     crate_features = [
         "native-tls",
         "native-tls-crate",
+        "openssl",
         "pem",
     ],
     crate_root = "src/lib.rs",
@@ -57,6 +58,7 @@ rust_library(
         "@raze__cfg_if__1_0_0//:cfg_if",
         "@raze__mio__0_7_6//:mio",
         "@raze__native_tls__0_2_6//:native_tls",
+        "@raze__openssl__0_10_30//:openssl",
         "@raze__pem__0_8_2//:pem",
     ],
 )

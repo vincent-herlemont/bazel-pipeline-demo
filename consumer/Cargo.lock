@@ -898,6 +898,7 @@ dependencies = [
  "cfg-if 1.0.0",
  "mio",
  "native-tls",
+ "openssl",
  "pem",
 ]
 

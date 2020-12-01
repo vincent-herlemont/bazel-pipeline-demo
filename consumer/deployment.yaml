@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer
+spec:
+  selector:
+    matchLabels:
+      app: rustconsumer
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: rustconsumer
+    spec:
+      containers:
+      - name: rustconsumer
+        image: "docker.local:5000/pipline-demo/consumer:dev"
+        env:
+          - name: PG_HOST
+            value: postgres
+          - name: PG_PORT
+            value: "5432"
+          - name: AMQP_HOST
+            value: rabbitmq
+          - name: AMQP_PORT
+            value: "5672"
+                

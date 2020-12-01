@@ -37,6 +37,13 @@ container_pull(
     digest = "sha256:ef59ec90488721c328840859aea0d6992601f8767d5772985026fbcf648a7a41",
 )
 
+container_pull(
+    name = "ubuntu20",
+    registry = "index.docker.io",
+    repository = "ubuntu",
+    tag = "20.10",
+)
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Go
@@ -175,3 +182,11 @@ rust_workspace()
 load("//consumer/cargo:crates.bzl", "raze_fetch_remote_crates")
 
 raze_fetch_remote_crates()
+
+# Rust (docker image)
+load(
+    "@io_bazel_rules_docker//rust:image.bzl",
+    _rust_image_repos = "repositories",
+)
+
+_rust_image_repos()

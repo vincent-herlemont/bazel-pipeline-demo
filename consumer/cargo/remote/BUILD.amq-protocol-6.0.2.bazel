@@ -41,6 +41,7 @@ cargo_build_script(
     },
     crate_features = [
         "native-tls",
+        "openssl",
     ],
     crate_root = "build.rs",
     data = glob(["**"]),
@@ -63,6 +64,7 @@ rust_library(
     srcs = glob(["**/*.rs"]),
     crate_features = [
         "native-tls",
+        "openssl",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",

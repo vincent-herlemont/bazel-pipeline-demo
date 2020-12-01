@@ -14,7 +14,11 @@ use std::time::Duration;
 fn main() -> Result<()> {
     env::set_var("RUST_LOG","DEBUG");
     env_logger::init();
-    let addr = "amqp://192.168.49.2:32329/%2f".to_string();
+    let host = env::var("AMQP_HOST").expect("AMQP_HOST"); // "amqp://192.168.49.2:32329/%2f".to_string();
+    let port = env::var("AMQP_PORT").expect("AMQP_PORT"); // "amqp://192.168.49.2:32329/%2f".to_string();
+    let addr = format!("amqp://{}:{}/%2f",host,port);
+    dbg!(&addr);
+
     let conn = Connection::connect(
         &addr,
         ConnectionProperties::default(),
@@ -45,9 +49,6 @@ fn main() -> Result<()> {
 
     dbg!(confirm);
 
-
-    sleep(Duration::from_secs(10));
-
     let mut consumer = receive.basic_consume(
         "hello",
         "hello_consumer",
@@ -63,5 +64,6 @@ fn main() -> Result<()> {
     info!("Hello from rust !");
     info!("{}", from_utf8(&delivery.data).unwrap());
 
+    loop {}
     Ok(())
 }
