@@ -7,5 +7,6 @@ rust_binary(
         "//consumer/cargo:log",
         "//consumer/cargo:env_logger",
         "//consumer/cargo:lapin",
+        "//consumer/cargo:futures",
     ],
 )
