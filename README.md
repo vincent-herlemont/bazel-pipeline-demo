@@ -107,8 +107,7 @@ ready - started server on http://localhost:3000
 
 ---
 
-- [ ] (apollo,js) create graphql endpoint
-...
+- [x] (apollo,js) create graphql endpoint
 
 ---
 

@@ -27,3 +27,12 @@ spec:
                 name: dispatcher
                 port:
                   number: 8080
+    - http:
+        paths:
+          - path: /graphql
+            pathType: Prefix
+            backend:
+              service:
+                name: graphql
+                port:
+                  number: 4000
