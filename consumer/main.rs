@@ -64,8 +64,8 @@ fn main() -> Result<()> {
     info!("{}", from_utf8(&delivery.data).unwrap());
 
     loop {
-        info!("Hello from rust !");
-        sleep(Duration::from_secs(10));
+        info!("Hello from rust !!");
+        sleep(Duration::from_secs(1));
     }
     Ok(())
 }
