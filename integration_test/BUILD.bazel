@@ -8,7 +8,7 @@ py_test(
         "//util",
     ],
     data = [
-        "//dispatcher:dispatcher"
+        "//dispatcher"
     ],
     visibility = ["//visibility:public"],
 )
