@@ -61,9 +61,11 @@ fn main() -> Result<()> {
     let mut it = consumer.into_iter();
     let (_,delivery) = it.next().expect("delivery").expect("delivery");
     let ack = executor::block_on(delivery.ack(BasicAckOptions::default()));
-    info!("Hello from rust !");
     info!("{}", from_utf8(&delivery.data).unwrap());
 
-    loop {}
+    loop {
+        info!("Hello from rust !");
+        sleep(Duration::from_secs(10));
+    }
     Ok(())
 }
