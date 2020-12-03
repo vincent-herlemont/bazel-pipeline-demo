@@ -1,6 +1,9 @@
 workspace(
     name = "pipeline_demo",
-    managed_directories = {"@npm": ["node_modules"]},
+    managed_directories = {
+        "@npm_web": ["./web/node_modules"],
+        "@npm_graphql": ["./graphql/node_modules"],
+    },
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -148,6 +151,11 @@ npm_install(
     name = "npm_web",
     package_json = "//web:package.json",
     package_lock_json = "//web:package-lock.json",
+)
+npm_install(
+    name = "npm_graphql",
+    package_json = "//graphql:package.json",
+    package_lock_json = "//graphql:package-lock.json",
 )
 
 # JS (docker image)

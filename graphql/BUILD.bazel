@@ -1,0 +1,10 @@
+load("@build_bazel_rules_nodejs//:index.bzl","nodejs_binary")
+nodejs_binary(
+    name = "graphql",
+    data = 
+        glob(["src/**/*"]) + 
+        [
+            "@npm_graphql//apollo-server",
+        ],
+    entry_point = "src/main.js",
+)
