@@ -12,13 +12,15 @@ class MyDatabase extends SQLDataSource {
 const knexConfig = {
     client: "pg",
     connection: {
-        host : '192.168.49.2',
-        user : 'postgresadmin',
-        password : 'admin123',
-        database : 'test',
-        port: '30032',
+        host : process.env.PG_HOST,
+        port: process.env.PG_PORT,
+        user : process.env.PG_USER,
+        password : process.env.PG_PASSWORD,
+        database : process.env.PG_DBNAME,
     }
 };
+
+console.log("knexConfig",knexConfig);
 
 const typeDefs = gql`
   type Fruit {
@@ -56,7 +58,7 @@ const resolvers = {
       fruits: async (_source, _args, { dataSources }) => {
         return dataSources.db.getFruits();
       }
-    },
+    }
 };
 
 const db = new MyDatabase(knexConfig);
@@ -67,10 +69,19 @@ const server = new ApolloServer({
     typeDefs, 
     resolvers, 
     tracing: true,
-    logger: true, // Debug
     debug: true,  //
     introspection: true,
-    playground: true,
+    playground: {
+        settings: {
+            'editor.theme': 'light',
+            'schema.polling.enable': true,
+            'schema.polling.interval': 500,
+        }
+    },
+    persistedQueries: false,
+    cacheControl: {
+        defaultMaxAge: 0,
+    },
     dataSources: () => ({ db }),
 });
 
