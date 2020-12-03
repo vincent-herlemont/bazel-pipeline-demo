@@ -1,22 +1,39 @@
 const { ApolloServer, gql } = require('apollo-server');
+const { SQLDataSource } = require("datasource-sql");
 
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
+class MyDatabase extends SQLDataSource {
+    getFruits() {
+      return this.knex
+        .select("*")
+        .from("fruit");
+    }
+}
+
+const knexConfig = {
+    client: "pg",
+    connection: {
+        host : '192.168.49.2',
+        user : 'postgresadmin',
+        password : 'admin123',
+        database : 'test',
+        port: '30032',
+    }
+};
+
 const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+  type Fruit {
+      name: String
+      size: Int
+  }
 
-  # This "Book" type defines the queryable fields for every book in our data source.
   type Book {
     title: String
     author: String
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     books: [Book]
+    fruits: [Fruit]
   }
 `;
 
@@ -36,18 +53,25 @@ const books = [
 const resolvers = {
     Query: {
       books: () => books,
+      fruits: async (_source, _args, { dataSources }) => {
+        return dataSources.db.getFruits();
+      }
     },
 };
+
+const db = new MyDatabase(knexConfig);
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({ 
     typeDefs, 
     resolvers, 
+    tracing: true,
     logger: true, // Debug
     debug: true,  //
     introspection: true,
     playground: true,
+    dataSources: () => ({ db }),
 });
 
 // The `listen` method launches a web server.

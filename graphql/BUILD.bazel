@@ -5,6 +5,8 @@ nodejs_binary(
         glob(["src/**/*"]) + 
         [
             "@npm_graphql//apollo-server",
+            "@npm_graphql//datasource-sql",
+            "@npm_graphql//pg",
         ],
     entry_point = "src/main.js",
 )
