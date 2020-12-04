@@ -1,4 +1,4 @@
-# eval $(egrep -v '^#' ./.dev) ibazel run //graphql
+# eval $(egrep -v '^#' ./.dev) ibazel run :graphql
 PG_HOST="192.168.49.2"
 PG_PORT="30032"
 PG_USER="postgresadmin"

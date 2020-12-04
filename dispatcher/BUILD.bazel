@@ -1,38 +1,28 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
-
-go_library(
-    name = "dispatcher_lib",
-    srcs = ["dispatcher.go"],
-    importpath = "github.com/vincent-herlemont/pipeline-demo/dispatcher",
-    visibility = ["//visibility:private"],
-    deps = [
-        "@com_github_lib_pq//:go_default_library",
-        "@com_github_streadway_amqp//:go_default_library",
-    ],
-)
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_test")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 
 go_binary(
     name = "dispatcher",
-    embed = [":dispatcher_lib"],
+    srcs = glob(
+        include = ["**/*.go"],
+        exclude = ["**/*_test.go"],
+    ),
+    importpath = "github.com/vincent-herlemont/pipeline-demo/dispatcher",
+    deps = [
+        "@com_github_streadway_amqp//:go_default_library",
+    ],
     visibility = ["//visibility:public"],
 )
 
 go_test(
     name = "test",
-    srcs = ["dispatcher_test.go"],
-    embed = ["dispatcher_lib"],
+    srcs = glob(["**/*_test.go"]),
+    embed = [":dispatcher"],
 )
-
-load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 
 go_image(
     name = "image",
-    srcs = ["dispatcher.go"],
-    importpath = "github.com/vincent-herlemont/pipeline-demo/dispatcher",
-    deps = [
-        "@com_github_lib_pq//:go_default_library",
-        "@com_github_streadway_amqp//:go_default_library",
-    ],
+    binary = ":dispatcher",
 )
 
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")

@@ -79,13 +79,6 @@ go_repository(
     version = "v1.0.0",
 )
 
-go_repository(
-    name = "com_github_lib_pq",
-    importpath = "github.com/lib/pq",
-    sum = "h1:9xohqzkUwzR4Ga4ivdTcawVS89YSDVxXMa3xJX3cGzg=",
-    version = "v1.8.0",
-)
-
 go_rules_dependencies()
 
 go_register_toolchains()
@@ -118,6 +111,7 @@ k8s_go_deps()
 
 # PYTHON
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
 http_archive(
     name = "rules_python",
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.1.0/rules_python-0.1.0.tar.gz",
@@ -125,17 +119,20 @@ http_archive(
 )
 
 load("@rules_python//python:pip.bzl", "pip_install")
+
 pip_install(
-   name = "util_deps",
-   requirements = "//util:requirements.txt",
+    name = "util_deps",
+    requirements = "//util:requirements.txt",
 )
+
 pip_install(
-   name = "util_tools_deps",
-   requirements = "//util/tools:requirements.txt",
+    name = "util_tools_deps",
+    requirements = "//util/tools:requirements.txt",
 )
 
 # JS
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
 http_archive(
     name = "build_bazel_rules_nodejs",
     sha256 = "452bef42c4b2fbe0f509a2699ffeb3ae2c914087736b16314dbd356f3641d7e5",
@@ -143,16 +140,19 @@ http_archive(
 )
 
 load("@build_bazel_rules_nodejs//:index.bzl", "npm_install")
+
 npm_install(
     name = "npm_front",
     package_json = "//front:package.json",
     package_lock_json = "//front:package-lock.json",
 )
+
 npm_install(
     name = "npm_web",
     package_json = "//web:package.json",
     package_lock_json = "//web:package-lock.json",
 )
+
 npm_install(
     name = "npm_graphql",
     package_json = "//graphql:package.json",
@@ -166,7 +166,6 @@ load(
 )
 
 _nodejs_image_repos()
-
 
 # Rust
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -182,7 +181,10 @@ http_archive(
 
 load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
 
-rust_repositories(version = "1.48.0", edition="2018")
+rust_repositories(
+    version = "1.48.0",
+    edition = "2018",
+)
 
 load("@io_bazel_rules_rust//:workspace.bzl", "rust_workspace")
 

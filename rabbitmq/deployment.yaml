@@ -12,6 +12,7 @@ spec:
      nodePort: 30072
    - name: amqp
      port: 5672
+     nodePort: 30172
   selector:
    app: rabbitmq
 ---

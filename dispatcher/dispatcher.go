@@ -1,41 +1,16 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	_ "github.com/lib/pq"
 	"github.com/streadway/amqp"
 )
 
 func Sum(a int, b int) int {
 	return a + b
-}
-
-func testSQL() {
-	conStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		os.Getenv("PG_HOST"),
-		os.Getenv("PG_PORT"),
-		os.Getenv("PG_USER"),
-		os.Getenv("PG_PASSWORD"),
-		os.Getenv("PG_DBNAME"),
-	)
-	fmt.Println(conStr)
-	db, err := sql.Open("postgres", conStr)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer db.Close()
-
-	var version string
-	err = db.QueryRow("SELECT VERSION()").Scan(&version)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("db version", version)
 }
 
 func testMq() {
@@ -71,14 +46,15 @@ func testMq() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Golang dispatcher %s!\n", r.URL.Path[1:])
+	fmt.Println("Golang dispatcher ...")
+	fmt.Fprintf(w, "Golang dispatcher")
 }
 
 func main() {
-	testSQL()
-	testMq()
-	fmt.Println("dispatcher up ....")
-	http.HandleFunc("/test", handler)
+	amqpCfg := NewAmqpCfg()
+	url := amqpCfg.url()
+	fmt.Println("url amqp: ",url)
+	http.HandleFunc("/dispatcher", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("exit")
 }

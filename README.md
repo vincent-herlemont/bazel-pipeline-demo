@@ -55,6 +55,11 @@ Golang dispatcher !!
 
 - Run tests `bazel test //...`
 
+Test **live** (use `ibazel`) and **debug** (use `--test_output=all`)
+```bash
+# Example with dispatcher
+ibazel test //dispatcher:test --test_output=all
+```
 
 ## Development
 
