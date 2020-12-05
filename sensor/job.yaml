@@ -1,18 +1,23 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: sensor-dev
 spec:
-  template:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
     spec:
-      containers:
-      - name: sensor-dev
-        image: "docker.local:5000/pipline-demo/sensor:dev"
-        env:
-          - name: DISPATCHER_HOST
-            value: "dispatcher"
-          - name: DISPATCHER_PORT
-            value: "8080"
-
-      restartPolicy: Never
-  backoffLimit: 4
+      parallelism : 5
+      template:
+        spec:
+          containers:
+          - name: sensor-dev
+            image: "docker.local:5000/pipline-demo/sensor:dev"
+            env:
+              - name: DISPATCHER_HOST
+                value: "dispatcher"
+              - name: DISPATCHER_PORT
+                value: "8080"
+          restartPolicy: Never
+      backoffLimit: 4

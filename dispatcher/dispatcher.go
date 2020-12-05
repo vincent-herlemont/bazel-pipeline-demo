@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -45,16 +46,26 @@ func testMq() {
 	}
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+
+
+func Handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Golang dispatcher ...")
-	fmt.Fprintf(w, "Golang dispatcher")
+
+	b,err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	s := string(b)
+
+	// Sensor Ack
+	fmt.Fprintf(w, "Retrieve %v", s)
 }
 
 func main() {
 	amqpCfg := NewAmqpCfg()
 	url := amqpCfg.url()
 	fmt.Println("url amqp: ",url)
-	http.HandleFunc("/dispatcher", handler)
+	http.HandleFunc("/dispatcher", Handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("exit")
 }
