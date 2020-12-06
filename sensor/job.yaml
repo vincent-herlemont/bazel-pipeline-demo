@@ -8,7 +8,7 @@ spec:
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
-      parallelism : 5
+      parallelism : 2
       template:
         spec:
           containers:
@@ -19,5 +19,5 @@ spec:
                 value: "dispatcher"
               - name: DISPATCHER_PORT
                 value: "8080"
-          restartPolicy: Never
+          restartPolicy: OnFailure
       backoffLimit: 4

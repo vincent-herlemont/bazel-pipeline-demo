@@ -17,6 +17,7 @@ func TestSum(t *testing.T) {
 
 
 func TestHandler(t *testing.T) {
+	c := make(chan int,1)
 	sData := strconv.Itoa(10)
 	reqBody := bytes.NewBuffer([]byte(sData))
 	req, err := http.NewRequest("POST", "/health-check", reqBody)
@@ -24,7 +25,7 @@ func TestHandler(t *testing.T) {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(Handler)
+	handler := http.HandlerFunc(Handler(c))
 
 	handler.ServeHTTP(rr, req)
 
