@@ -21,7 +21,11 @@ spec:
           - name: PG_PORT
             value: "5432"
           - name: AMQP_HOST
-            value: rabbitmq
+            value: "rabbitmq"
           - name: AMQP_PORT
             value: "5672"
+          - name: AMQP_USER
+            value: "guest"
+          - name: AMQP_PASSWORD
+            value: "guest"
                 

@@ -1,3 +1,5 @@
+mod amqp;
+
 #[macro_use]
 extern crate log;
 extern crate lapin;
@@ -10,62 +12,68 @@ use std::str::from_utf8;
 use futures::executor;
 use std::thread::sleep;
 use std::time::Duration;
+use crate::amqp::AmqpCfg;
 
 fn main() -> Result<()> {
     env::set_var("RUST_LOG","DEBUG");
     env_logger::init();
-    let host = env::var("AMQP_HOST").expect("AMQP_HOST"); // "amqp://192.168.49.2:32329/%2f".to_string();
-    let port = env::var("AMQP_PORT").expect("AMQP_PORT"); // "amqp://192.168.49.2:32329/%2f".to_string();
-    let addr = format!("amqp://{}:{}/%2f",host,port);
-    dbg!(&addr);
+
+    let amqpCfg = AmqpCfg::new();
+    dbg!(&amqpCfg);
 
     let conn = Connection::connect(
-        &addr,
+        &amqpCfg.url(),
         ConnectionProperties::default(),
     ).wait().expect("connection");
 
-    dbg!(&conn);
-
-    let send = conn.create_channel().wait().expect("create send channel");
     let receive = conn.create_channel().wait().expect("create receive channel");
 
-    let queue = send
-        .queue_declare("hello", QueueDeclareOptions::default(), FieldTable::default())
-        .wait()
-        .expect("declare queue hello");
-
-    let payload = b"Message from rabbitmq";
-    let confirm = send.basic_publish(
-      "",
-        "hello",
-        BasicPublishOptions::default(),
-        payload.to_vec(),
-        BasicProperties::default(),
-    )
-        .wait()
-        .expect("basic publish")
-        .wait()
-        .expect("confirmation");
-
-    dbg!(confirm);
+    dbg!(&receive);
 
     let mut consumer = receive.basic_consume(
-        "hello",
-        "hello_consumer",
+        "data",
+        "",
         BasicConsumeOptions::default(),
         FieldTable::default(),
     )
         .wait()
         .expect("basic consume");
 
-    let mut it = consumer.into_iter();
-    let (_,delivery) = it.next().expect("delivery").expect("delivery");
-    let ack = executor::block_on(delivery.ack(BasicAckOptions::default()));
-    info!("{}", from_utf8(&delivery.data).unwrap());
+    dbg!(&consumer);
 
-    loop {
-        info!("Hello from rust !!");
-        sleep(Duration::from_secs(1));
+    for delivery in consumer.into_iter() {
+        match delivery {
+            Ok((_,delivery)) => {
+                if let Ok(_) = executor::block_on(delivery.ack(BasicAckOptions::default())) {
+                    info!("ACK ok")
+                } else {
+                    error!("ACK fail")
+                }
+                match from_utf8(&delivery.data) {
+                    Ok(s) => {
+                        info!("consumer data : {}",s)
+                    }
+                    Err(err) => {
+                        error!("utf8 err : {:?}", err)
+                    }
+                };
+            },
+            Err(err) => {
+                error!("lapin err : {:?}",err)
+            }
+        }
     }
+
+    println!("exit");
+
+    // let mut it = consumer.into_iter();
+    // let (_,delivery) = it.next().expect("delivery").expect("delivery");
+    // let ack = executor::block_on(delivery.ack(BasicAckOptions::default()));
+    // info!("{}", from_utf8(&delivery.data).unwrap());
+    //
+    // loop {
+    //     info!("Hello from rust !!");
+    //     sleep(Duration::from_secs(1));
+    // }
     Ok(())
 }

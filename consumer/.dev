@@ -1,0 +1,5 @@
+# eval $(egrep -v '^#' ./.dev) ibazel run :consumer
+AMQP_HOST=192.168.49.2
+AMQP_PORT=30172 
+AMQP_USER=guest
+AMQP_PASSWORD=guest

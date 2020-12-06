@@ -1,14 +1,20 @@
-load("@io_bazel_rules_rust//rust:rust.bzl", "rust_binary")
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_binary", "rust_test")
 
 rust_binary(
     name = "consumer",
-    srcs = ["main.rs"],
+    srcs = glob(["**/*.rs"]),
     deps = [
         "//consumer/cargo:log",
         "//consumer/cargo:env_logger",
         "//consumer/cargo:lapin",
         "//consumer/cargo:futures",
     ],
+)
+
+rust_test(
+    name = "test",
+    crate = ":consumer",
+    deps = [":consumer"],
 )
 
 load("@io_bazel_rules_docker//rust:image.bzl", "rust_image")

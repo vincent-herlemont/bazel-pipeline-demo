@@ -32,7 +32,7 @@ func sendInt(data int,url string) {
 }
 
 func main() {
-	callNumber := 2
+	callNumber := 100000
 	cfg := NewDispatcherCfg();
 	url := cfg.Url()
 	log.Println("dispatcher url : ", url);
