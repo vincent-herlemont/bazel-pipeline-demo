@@ -48,6 +48,14 @@ container_pull(
     digest = "sha256:c41e8d2a4ca9cddb4398bf08c99548b9c20d238f575870ae4d3216bc55ef3ca7",
 )
 
+container_pull(
+    name = "postgres",
+    registry = "index.docker.io",
+    repository = "postgres",
+    tag = "13.1",
+    digest = "sha256:87826486f735951c5453841f59dd966b46e69d2faf2c36045c1cdf85d694a695",
+)
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Go
