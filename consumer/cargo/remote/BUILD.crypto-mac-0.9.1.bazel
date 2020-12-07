@@ -31,12 +31,9 @@ licenses([
 # Generated Targets
 
 rust_library(
-    name = "futures_sink",
+    name = "crypto_mac",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
-        "default",
-        "std",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
@@ -48,8 +45,10 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.9.1",
     # buildifier: leave-alone
     deps = [
+        "@raze__generic_array__0_14_4//:generic_array",
+        "@raze__subtle__2_3_0//:subtle",
     ],
 )

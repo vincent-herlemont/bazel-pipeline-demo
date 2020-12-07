@@ -31,10 +31,9 @@ licenses([
 # Generated Targets
 
 rust_library(
-    name = "futures_sink",
+    name = "fallible_iterator",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
         "default",
         "std",
     ],
@@ -48,7 +47,7 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.2.0",
     # buildifier: leave-alone
     deps = [
     ],

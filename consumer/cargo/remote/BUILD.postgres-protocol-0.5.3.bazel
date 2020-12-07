@@ -31,12 +31,9 @@ licenses([
 # Generated Targets
 
 rust_library(
-    name = "futures_sink",
+    name = "postgres_protocol",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
-        "default",
-        "std",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
@@ -48,8 +45,18 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.5.3",
     # buildifier: leave-alone
     deps = [
+        "@raze__base64__0_13_0//:base64",
+        "@raze__byteorder__1_3_4//:byteorder",
+        "@raze__bytes__0_5_6//:bytes",
+        "@raze__fallible_iterator__0_2_0//:fallible_iterator",
+        "@raze__hmac__0_9_0//:hmac",
+        "@raze__md5__0_7_0//:md5",
+        "@raze__memchr__2_3_4//:memchr",
+        "@raze__rand__0_7_3//:rand",
+        "@raze__sha2__0_9_2//:sha2",
+        "@raze__stringprep__0_1_2//:stringprep",
     ],
 )

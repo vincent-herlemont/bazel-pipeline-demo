@@ -30,17 +30,21 @@ licenses([
 
 # Generated Targets
 
+# Unsupported target "bench" with type "bench" omitted
+
 rust_library(
-    name = "futures_sink",
+    name = "tokio_postgres",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
         "default",
-        "std",
+        "runtime",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
     edition = "2018",
+    proc_macro_deps = [
+        "@raze__async_trait__0_1_42//:async_trait",
+    ],
     rustc_flags = [
         "--cap-lints=allow",
     ],
@@ -48,8 +52,23 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.6.0",
     # buildifier: leave-alone
     deps = [
+        "@raze__byteorder__1_3_4//:byteorder",
+        "@raze__bytes__0_5_6//:bytes",
+        "@raze__fallible_iterator__0_2_0//:fallible_iterator",
+        "@raze__futures__0_3_8//:futures",
+        "@raze__log__0_4_11//:log",
+        "@raze__parking_lot__0_11_1//:parking_lot",
+        "@raze__percent_encoding__2_1_0//:percent_encoding",
+        "@raze__phf__0_8_0//:phf",
+        "@raze__pin_project_lite__0_1_11//:pin_project_lite",
+        "@raze__postgres_protocol__0_5_3//:postgres_protocol",
+        "@raze__postgres_types__0_1_3//:postgres_types",
+        "@raze__tokio__0_3_5//:tokio",
+        "@raze__tokio_util__0_4_0//:tokio_util",
     ],
 )
+
+# Unsupported target "test" with type "test" omitted

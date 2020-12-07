@@ -1,10 +1,12 @@
 mod amqp;
+mod pg;
 
 #[macro_use]
 extern crate log;
 extern crate lapin;
+extern crate thiserror;
 
-use lapin::{Connection, ConnectionProperties, Result, types::FieldTable, BasicProperties};
+use lapin::{Connection, ConnectionProperties, types::FieldTable, BasicProperties};
 use std::env;
 use lapin::options::{QueueDeclareOptions, BasicPublishOptions, BasicConsumeOptions, BasicAckOptions, BasicCancelOptions};
 use lapin::message::DeliveryResult;
@@ -13,23 +15,40 @@ use futures::executor;
 use std::thread::sleep;
 use std::time::Duration;
 use crate::amqp::AmqpCfg;
+use crate::pg::PgCfg;
+use postgres::{Client, NoTls};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum MainError {
+    #[error("amqp")]
+    Lapin(#[from] lapin::Error),
+    #[error("pg")]
+    Pg(#[from] postgres::Error),
+}
+
+pub type Result<T> = std::result::Result<T, MainError>;
 
 fn main() -> Result<()> {
     env::set_var("RUST_LOG","DEBUG");
     env_logger::init();
 
+    let pgUrl = PgCfg::new().connection_string();
+    info!("pgUrl {}", &pgUrl);
+
+    let mut client = Client::connect(&pgUrl, NoTls)?;
+
     let amqpUrl = AmqpCfg::new().url();
-    
     info!("amqpUrl {}", &amqpUrl);
 
     let conn = Connection::connect(
         &amqpUrl,
         ConnectionProperties::default(),
-    ).wait().expect("connection");
+    ).wait()?;
 
     info!("connection amqp ok");
 
-    let receive = conn.create_channel().wait().expect("create receive channel");
+    let receive = conn.create_channel().wait()?;
 
     info!("create receive channel ok");
 
@@ -39,8 +58,7 @@ fn main() -> Result<()> {
         BasicConsumeOptions::default(),
         FieldTable::default(),
     )
-        .wait()
-        .expect("basic consume");
+        .wait()?;
 
     info!("create consumer ok");
 

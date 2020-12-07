@@ -31,12 +31,9 @@ licenses([
 # Generated Targets
 
 rust_library(
-    name = "futures_sink",
+    name = "hmac",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
-        "default",
-        "std",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
@@ -48,8 +45,12 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.9.0",
     # buildifier: leave-alone
     deps = [
+        "@raze__crypto_mac__0_9_1//:crypto_mac",
+        "@raze__digest__0_9_0//:digest",
     ],
 )
+
+# Unsupported target "lib" with type "test" omitted

@@ -30,13 +30,12 @@ licenses([
 
 # Generated Targets
 
+# Unsupported target "bench" with type "bench" omitted
+
 rust_library(
-    name = "futures_sink",
+    name = "postgres",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
-        "default",
-        "std",
     ],
     crate_root = "src/lib.rs",
     crate_type = "lib",
@@ -48,8 +47,14 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.18.1",
     # buildifier: leave-alone
     deps = [
+        "@raze__bytes__0_5_6//:bytes",
+        "@raze__fallible_iterator__0_2_0//:fallible_iterator",
+        "@raze__futures__0_3_8//:futures",
+        "@raze__log__0_4_11//:log",
+        "@raze__tokio__0_3_5//:tokio",
+        "@raze__tokio_postgres__0_6_0//:tokio_postgres",
     ],
 )

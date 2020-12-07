@@ -20,6 +20,21 @@ spec:
             value: postgres
           - name: PG_PORT
             value: "5432"
+          - name: PG_USER
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_USER
+          - name: PG_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_PASSWORD
+          - name: PG_DBNAME
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: POSTGRES_DB
           - name: AMQP_HOST
             value: "rabbitmq"
           - name: AMQP_PORT
@@ -28,4 +43,4 @@ spec:
             value: "guest"
           - name: AMQP_PASSWORD
             value: "guest"
-                
+

@@ -25,16 +25,15 @@ package(default_visibility = [
 ])
 
 licenses([
-    "notice",  # MIT from expression "MIT OR Apache-2.0"
+    "notice",  # MIT from expression "MIT"
 ])
 
 # Generated Targets
 
 rust_library(
-    name = "futures_sink",
+    name = "phf_shared",
     srcs = glob(["**/*.rs"]),
     crate_features = [
-        "alloc",
         "default",
         "std",
     ],
@@ -48,8 +47,9 @@ rust_library(
         "cargo-raze",
         "manual",
     ],
-    version = "0.3.8",
+    version = "0.8.0",
     # buildifier: leave-alone
     deps = [
+        "@raze__siphasher__0_3_3//:siphasher",
     ],
 )

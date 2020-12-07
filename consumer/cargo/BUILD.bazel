@@ -47,3 +47,21 @@ alias(
         "manual",
     ],
 )
+
+alias(
+    name = "postgres",
+    actual = "@raze__postgres__0_18_1//:postgres",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "thiserror",
+    actual = "@raze__thiserror__1_0_22//:thiserror",
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)

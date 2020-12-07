@@ -87,6 +87,12 @@ ready - started server on http://localhost:3000
 ...
 ```
 
+## Rust
+
+Add dependencies
+- Add dependecies to `Cargo.toml`
+- Run `cargo raze` in the package folder
+
 # TODO
 
 - [X] (go,bazel) connect to golang app dispatcher

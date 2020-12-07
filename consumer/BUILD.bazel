@@ -8,6 +8,8 @@ rust_binary(
         "//consumer/cargo:env_logger",
         "//consumer/cargo:lapin",
         "//consumer/cargo:futures",
+        "//consumer/cargo:postgres",
+        "//consumer/cargo:thiserror",
     ],
 )
 
