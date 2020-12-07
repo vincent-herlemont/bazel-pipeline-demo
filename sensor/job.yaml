@@ -3,12 +3,12 @@ kind: CronJob
 metadata:
   name: sensor
 spec:
-  schedule: "*/20 * * * *"
+  schedule: "*/1 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
-      parallelism : 1
+      parallelism : 5
       template:
         spec:
           containers:

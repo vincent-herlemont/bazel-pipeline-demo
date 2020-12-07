@@ -18,17 +18,20 @@ fn main() -> Result<()> {
     env::set_var("RUST_LOG","DEBUG");
     env_logger::init();
 
-    let amqpCfg = AmqpCfg::new();
-    dbg!(&amqpCfg);
+    let amqpUrl = AmqpCfg::new().url();
+    
+    info!("amqpUrl {}", &amqpUrl);
 
     let conn = Connection::connect(
-        &amqpCfg.url(),
+        &amqpUrl,
         ConnectionProperties::default(),
     ).wait().expect("connection");
 
+    info!("connection amqp ok");
+
     let receive = conn.create_channel().wait().expect("create receive channel");
 
-    dbg!(&receive);
+    info!("create receive channel ok");
 
     let mut consumer = receive.basic_consume(
         "data",
@@ -39,7 +42,7 @@ fn main() -> Result<()> {
         .wait()
         .expect("basic consume");
 
-    dbg!(&consumer);
+    info!("create consumer ok");
 
     for delivery in consumer.into_iter() {
         match delivery {
@@ -64,16 +67,7 @@ fn main() -> Result<()> {
         }
     }
 
-    println!("exit");
-
-    // let mut it = consumer.into_iter();
-    // let (_,delivery) = it.next().expect("delivery").expect("delivery");
-    // let ack = executor::block_on(delivery.ack(BasicAckOptions::default()));
-    // info!("{}", from_utf8(&delivery.data).unwrap());
-    //
-    // loop {
-    //     info!("Hello from rust !!");
-    //     sleep(Duration::from_secs(1));
-    // }
+    info!("exit consumer");
+    
     Ok(())
 }

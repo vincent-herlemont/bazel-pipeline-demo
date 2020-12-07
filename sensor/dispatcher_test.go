@@ -8,8 +8,8 @@ func TestUrl(t *testing.T) {
 		port: "8080",
 	}
 
-	url := cfg.url()
-	if url != "http://localhost:8080/" {
+	url := cfg.Url()
+	if url != "http://localhost:8080/dispatcher" {
 		t.Errorf("%s", url)
 	}
 }
