@@ -72,6 +72,17 @@ fn main() -> Result<()> {
                 }
                 match from_utf8(&delivery.data) {
                     Ok(s) => {
+                        match s.parse::<i32>() {
+                            Ok(i)=> {
+                                if let Err(err) = client.execute(
+                                    "INSERT INTO data (n) VALUES ($1)",
+                                    &[&i],
+                                ) {
+                                    error!("insert error : {:?}",err);
+                                }
+                            }
+                            Err(err) => error!("parse err : {:?}", err)
+                        };
                         info!("consumer data : {}",s)
                     }
                     Err(err) => {
