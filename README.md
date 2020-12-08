@@ -122,6 +122,9 @@ Add dependencies
 
 ---
 
+- [ ] (rust,go) auto reconnection to rabbitmq for consumer and dispatcher servicies
+- [ ] (rust) auto reconnection to postgresql for consumer service
+
 # Drawing
 
 - `./senror` Go : Send data to dispatcher.
