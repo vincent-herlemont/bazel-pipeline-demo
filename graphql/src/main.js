@@ -2,10 +2,10 @@ const { ApolloServer, gql } = require('apollo-server');
 const { SQLDataSource } = require("datasource-sql");
 
 class MyDatabase extends SQLDataSource {
-    getFruits() {
+    getDatas() {
       return this.knex
-        .select("*")
-        .from("fruit");
+        .select("n",this.knex.raw("to_json(created_at) as created_at"))
+        .from("data");
     }
 }
 
@@ -23,40 +23,22 @@ const knexConfig = {
 console.log("knexConfig",knexConfig);
 
 const typeDefs = gql`
-  type Fruit {
-      name: String
-      size: Int
-  }
-
-  type Book {
-    title: String
-    author: String
+  type Data {
+      n: Int
+      created_at: String
   }
 
   type Query {
-    books: [Book]
-    fruits: [Fruit]
+    datas: [Data]
   }
 `;
-
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-];
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      books: () => books,
-      fruits: async (_source, _args, { dataSources }) => {
-        return dataSources.db.getFruits();
+      datas: async (_source, _args, { dataSources }) => {
+        return dataSources.db.getDatas();
       }
     }
 };
