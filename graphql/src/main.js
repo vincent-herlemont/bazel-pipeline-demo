@@ -2,10 +2,17 @@ const { ApolloServer, gql } = require('apollo-server');
 const { SQLDataSource } = require("datasource-sql");
 
 class MyDatabase extends SQLDataSource {
-    getDatas() {
-      return this.knex
+    getDatas(limit,cursor) {
+      let select = this.knex
         .select("n",this.knex.raw("to_json(created_at) as created_at"))
         .from("data");
+      if (cursor) {
+        select = select.whereRaw("created_at <= ?",[cursor])
+      }
+      if (limit > 0) {
+        select = select.limit(limit);
+      }
+      return select.orderBy("data.created_at","DESC");
     }
 }
 
@@ -23,13 +30,24 @@ const knexConfig = {
 console.log("knexConfig",knexConfig);
 
 const typeDefs = gql`
+
+  # type Data {
+  #     cursor: String
+  #     list: [DataContent]
+  # }
+
   type Data {
-      n: Int
-      created_at: String
+    n: Int
+    created_at: String
+  }
+
+  type Datas {
+      next: String
+      list: [Data]
   }
 
   type Query {
-    datas: [Data]
+    datas(cursor: String,limit: Int): Datas
   }
 `;
 
@@ -37,8 +55,17 @@ const typeDefs = gql`
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      datas: async (_source, _args, { dataSources }) => {
-        return dataSources.db.getDatas();
+      datas: async (_source, {limit,cursor}, { dataSources }) => {
+        let list = await dataSources.db.getDatas(limit+1,cursor);
+        let next = "";
+        if (Array.isArray(list) && list.length > 0) {
+          let last = list.pop();
+          next = last.created_at;
+        }
+        return {
+          next,
+          list
+        };
       }
     }
 };
@@ -51,8 +78,9 @@ const server = new ApolloServer({
     typeDefs, 
     resolvers, 
     tracing: true,
-    debug: true,  //
+    debug: true,
     introspection: true,
+    logger: console,
     playground: {
         settings: {
             'editor.theme': 'light',
