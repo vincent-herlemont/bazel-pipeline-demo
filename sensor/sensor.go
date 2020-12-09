@@ -28,18 +28,15 @@ func sendInt(data int,url string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Println(string(body))
+	log.Println("Dispatcher response : ",string(body))
 }
 
 func main() {
-	callNumber := 10
 	cfg := NewDispatcherCfg();
 	url := cfg.Url()
 	log.Println("dispatcher url : ", url);
-	log.Println("number of call : ",callNumber);
-	for i := 0; i <= callNumber; i++ {
+	for {
 		sendInt(IntRand(10,400),url)
 		time.Sleep(1 * time.Second)
 	}
-
 }

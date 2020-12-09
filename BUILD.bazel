@@ -16,13 +16,6 @@ k8s_object(
 load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")
 
 k8s_objects(
-    name = "jobs",
-    objects = [
-        "//sensor:job",
-    ],
-)
-
-k8s_objects(
     name = "apps",
     objects = [
         "//postgresql:app",
@@ -31,6 +24,7 @@ k8s_objects(
         "//consumer:app",
         "//graphql:app",
         "//web:app",
+        "//sensor:app",
     ],
 )
 
@@ -39,6 +33,5 @@ k8s_objects(
     objects = [
         ":ingress",
         ":apps",
-        ":jobs",
     ],
 )

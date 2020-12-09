@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor
+spec:
+  selector:
+    matchLabels:
+      app: gosensor
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: gosensor
+    spec:
+      containers:
+        - name: gosensor
+          image: "docker.local:5000/pipline-demo/sensor:dev"
+          env:
+            - name: DISPATCHER_HOST
+              value: "dispatcher"
+            - name: DISPATCHER_PORT
+              value: "8080"
