@@ -24,17 +24,13 @@ const knexConfig = {
         user : process.env.PG_USER,
         password : process.env.PG_PASSWORD,
         database : process.env.PG_DBNAME,
-    }
+    },
+    pool: { min: 2, max: 5 }
 };
 
 console.log("knexConfig",knexConfig);
 
 const typeDefs = gql`
-
-  # type Data {
-  #     cursor: String
-  #     list: [DataContent]
-  # }
 
   type Data {
     n: Int
@@ -47,7 +43,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    datas(cursor: String,limit: Int): Datas
+    datas(cursor: String,limit: Int): Datas @cacheControl(maxAge: 1)
   }
 `;
 
