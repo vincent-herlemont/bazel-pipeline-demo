@@ -24,7 +24,7 @@ const Chart = () => {
       const result = await client.query({
         query: gql`
           query GetDatas {
-            datas(limit: 100) {
+            datas(limit: 1000) {
               list {
                 n
                 created_at

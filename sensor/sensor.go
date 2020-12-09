@@ -37,6 +37,6 @@ func main() {
 	log.Println("dispatcher url : ", url);
 	for {
 		sendInt(IntRand(10,400),url)
-		time.Sleep(1 * time.Second)
+		time.Sleep(time.Duration(IntRand(100,1000)) * time.Millisecond)
 	}
 }
