@@ -56,10 +56,13 @@ func main() {
 		for {
 			s := strconv.Itoa(<- c)
 			log.Println("publish amqp : ",s)
-			ch.Publish("", q.Name, false, false, amqp.Publishing{
+			err := ch.Publish("", q.Name, false, false, amqp.Publishing{
 				ContentType: "application/binary",
 				Body:        []byte(s),
 			})
+			if err != nil {
+				log.Fatalln(err)
+			}
 		}
 	}()
 

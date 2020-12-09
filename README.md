@@ -123,7 +123,7 @@ Add dependencies
 ---
 
 - [x] (go) convert sensor job to service.
-- [ ] (rust,go) auto reconnection to rabbitmq for consumer and dispatcher servicies
+- [x] (rust,go) auto reconnection to rabbitmq for consumer and dispatcher servicies
 - [ ] (rust) auto reconnection to postgresql for consumer service
 - [ ] set postgresql cron for delete
 
