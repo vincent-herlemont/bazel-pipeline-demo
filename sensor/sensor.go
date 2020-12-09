@@ -32,13 +32,14 @@ func sendInt(data int,url string) {
 }
 
 func main() {
-	callNumber := 2
+	callNumber := 10
 	cfg := NewDispatcherCfg();
 	url := cfg.Url()
 	log.Println("dispatcher url : ", url);
 	log.Println("number of call : ",callNumber);
 	for i := 0; i <= callNumber; i++ {
 		sendInt(IntRand(10,400),url)
+		time.Sleep(1 * time.Second)
 	}
 
 }
