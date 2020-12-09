@@ -1,5 +1,8 @@
 mod amqp;
 mod pg;
+mod data;
+mod error;
+mod result;
 
 #[macro_use]
 extern crate log;
@@ -8,7 +11,7 @@ extern crate thiserror;
 
 use lapin::{Connection, ConnectionProperties, types::FieldTable, BasicProperties};
 use std::env;
-use lapin::options::{QueueDeclareOptions, BasicPublishOptions, BasicConsumeOptions, BasicAckOptions, BasicCancelOptions};
+use lapin::options::{QueueDeclareOptions, BasicPublishOptions, BasicConsumeOptions, BasicAckOptions, BasicCancelOptions, BasicRejectOptions};
 use lapin::message::DeliveryResult;
 use std::str::from_utf8;
 use futures::executor;
@@ -17,32 +20,34 @@ use std::time::Duration;
 use crate::amqp::AmqpCfg;
 use crate::pg::PgCfg;
 use postgres::{Client, NoTls};
-use thiserror::Error;
+use result::Result;
+use data::Data;
+use crate::error::MainError;
 
-#[derive(Error, Debug)]
-pub enum MainError {
-    #[error("amqp")]
-    Lapin(#[from] lapin::Error),
-    #[error("pg")]
-    Pg(#[from] postgres::Error),
+
+fn process_data(data: &[u8], pg_client: &mut Client) -> Result<()> {
+    let data:i32 = Data::from_bytes(data)?.into();
+    pg_client.execute(
+        "INSERT INTO data (n) VALUES ($1)",
+        &[&data],
+    )?;
+    Ok(())
 }
-
-pub type Result<T> = std::result::Result<T, MainError>;
 
 fn main() -> Result<()> {
     env::set_var("RUST_LOG","DEBUG");
     env_logger::init();
 
-    let pgUrl = PgCfg::new().connection_string();
-    info!("pgUrl {}", &pgUrl);
+    let pg_url = PgCfg::new().connection_string();
+    info!("pg_url {}", &pg_url);
 
-    let mut client = Client::connect(&pgUrl, NoTls)?;
+    let mut client = Client::connect(&pg_url, NoTls)?;
 
-    let amqpUrl = AmqpCfg::new().url();
-    info!("amqpUrl {}", &amqpUrl);
+    let amqp_url = AmqpCfg::new().url();
+    info!("amqp_url {}", &amqp_url);
 
     let conn = Connection::connect(
-        &amqpUrl,
+        &amqp_url,
         ConnectionProperties::default(),
     ).wait()?;
 
@@ -64,34 +69,19 @@ fn main() -> Result<()> {
 
     for delivery in consumer.into_iter() {
         match delivery {
-            Ok((_,delivery)) => {
-                if let Ok(_) = executor::block_on(delivery.ack(BasicAckOptions::default())) {
-                    info!("ACK ok")
-                } else {
-                    error!("ACK fail")
+            Ok((c,delivery)) => {
+                if !&c.status().connected() {
+                    return Err(MainError::LapinDisconnected)
                 }
-                match from_utf8(&delivery.data) {
-                    Ok(s) => {
-                        match s.parse::<i32>() {
-                            Ok(i)=> {
-                                if let Err(err) = client.execute(
-                                    "INSERT INTO data (n) VALUES ($1)",
-                                    &[&i],
-                                ) {
-                                    error!("insert error : {:?}",err);
-                                }
-                            }
-                            Err(err) => error!("parse err : {:?}", err)
-                        };
-                        info!("consumer data : {}",s)
-                    }
-                    Err(err) => {
-                        error!("utf8 err : {:?}", err)
-                    }
-                };
+                if let Err(MainError::Pg(err)) = process_data(&delivery.data, &mut client) {
+                    executor::block_on(delivery.reject(BasicRejectOptions{requeue:true}))?;
+                    return Err(MainError::Pg(err));
+                } else {
+                    executor::block_on(delivery.ack(BasicAckOptions::default()))?;
+                }
             },
             Err(err) => {
-                error!("lapin err : {:?}",err)
+                return Err(MainError::Lapin(err));
             }
         }
     }
