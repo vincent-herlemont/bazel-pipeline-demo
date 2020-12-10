@@ -29,6 +29,6 @@ spec:
     spec:
       containers:
       - name: nextjs-web
-        image: "docker.local:5000/pipline-demo/web:dev"
+        image: "{STABLE_REGISTRY}/web:dev"
         ports:
         - containerPort: 3000

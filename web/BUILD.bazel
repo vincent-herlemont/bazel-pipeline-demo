@@ -80,7 +80,7 @@ k8s_object(
     name = "deployment",
     cluster = "minikube",
     images = {
-        "docker.local:5000/pipline-demo/web:dev": "//web:image",
+        "{STABLE_REGISTRY}/web:dev": "//web:image",
     },
     kind = "Deployment",
     template = "deployment.yaml",

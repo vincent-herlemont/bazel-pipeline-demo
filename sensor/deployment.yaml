@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gosensor
-          image: "docker.local:5000/pipline-demo/sensor:dev"
+          image: "{STABLE_REGISTRY}/sensor:dev"
           env:
             - name: DISPATCHER_HOST
               value: "dispatcher"

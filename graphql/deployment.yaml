@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: jsgraphql
-        image: "docker.local:5000/pipline-demo/graphql:dev"
+        image: "{STABLE_REGISTRY}/graphql:dev"
         ports:
         - containerPort: 4000
         env:

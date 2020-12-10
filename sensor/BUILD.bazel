@@ -28,7 +28,7 @@ k8s_object(
     name = "deployment",
     cluster = "minikube",
     images = {
-        "docker.local:5000/pipline-demo/sensor:dev": "//sensor:image",
+        "{STABLE_REGISTRY}/sensor:dev": "//sensor:image",
     },
     kind = "Deployment",
     template = "deployment.yaml",

@@ -32,7 +32,7 @@ k8s_object(
     cluster = "minikube",
     kind = "Deployment",
     images = {
-        "docker.local:5000/pipline-demo/posgresql:dev": ":image",
+        "{STABLE_REGISTRY}/posgresql:dev": ":image",
     },
     template = "deployment.yaml",
 )

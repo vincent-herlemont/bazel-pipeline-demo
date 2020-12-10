@@ -24,7 +24,7 @@ k8s_object(
     name = "deployment",
     cluster = "minikube",
     images = {
-        "docker.local:5000/pipline-demo/graphql:dev": ":image",
+        "{STABLE_REGISTRY}/graphql:dev": ":image",
     },
     kind = "Deployment",
     template = "deployment.yaml",

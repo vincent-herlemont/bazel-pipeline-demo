@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: rustconsumer
-        image: "docker.local:5000/pipline-demo/consumer:dev"
+        image: "{STABLE_REGISTRY}/consumer:dev"
         env:
           - name: PG_HOST
             value: postgres

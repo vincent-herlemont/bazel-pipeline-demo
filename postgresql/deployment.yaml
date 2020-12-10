@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: "docker.local:5000/pipline-demo/posgresql:dev"
+          image: "{STABLE_REGISTRY}/posgresql:dev"
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 5432

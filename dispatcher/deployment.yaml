@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: godispatcher
-        image: "docker.local:5000/pipline-demo/dispatcher:dev"
+        image: "{STABLE_REGISTRY}/dispatcher:dev"
         ports:
         - containerPort: 8080
         env:

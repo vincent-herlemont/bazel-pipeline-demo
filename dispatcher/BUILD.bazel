@@ -31,7 +31,7 @@ k8s_object(
     name = "deployment",
     cluster = "minikube",
     images = {
-        "docker.local:5000/pipline-demo/dispatcher:dev": "//dispatcher:image",
+        "{STABLE_REGISTRY}/dispatcher:dev": "//dispatcher:image",
     },
     kind = "Deployment",
     template = "deployment.yaml",
