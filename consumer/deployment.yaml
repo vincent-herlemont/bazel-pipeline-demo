@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: rustconsumer
-  replicas: 4
+  replicas: 2
   template:
     metadata:
       labels:
@@ -43,4 +43,7 @@ spec:
             value: "guest"
           - name: AMQP_PASSWORD
             value: "guest"
-
+      #@ if ${STABLE_REGISTRY_AUTH}:
+      imagePullSecrets:
+        - name: registry-secret
+      #@ end

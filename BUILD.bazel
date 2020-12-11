@@ -1,3 +1,5 @@
+exports_files(["bazel-out/stable-status.txt"])
+
 load("@bazel_gazelle//:def.bzl", "gazelle")
 
 # gazelle:prefix github.com/vincent-herlemont/pipeline-demo
@@ -8,7 +10,7 @@ load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 
 k8s_object(
     name = "ingress",
-    cluster = "minikube",
+    cluster = "{STABLE_CLUSTER}",
     kind = "Ingress",
     template = "ingress.yaml",
 )
@@ -35,3 +37,4 @@ k8s_objects(
         ":apps",
     ],
 )
+

@@ -209,3 +209,11 @@ load(
 )
 
 _rust_image_repos()
+
+
+# TODO: test tyy
+load("@pipeline_demo//util/ytt:repository.bzl","ytt_tool")
+
+ytt_tool(
+    name = "ytt_tool",
+)

@@ -52,4 +52,7 @@ spec:
               configMapKeyRef:
                 name: postgres-config
                 key: POSTGRES_DB
-                
+      #@ if ${STABLE_REGISTRY_AUTH}:
+      imagePullSecrets:
+        - name: registry-secret
+      #@ end

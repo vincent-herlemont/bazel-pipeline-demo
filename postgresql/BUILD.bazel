@@ -15,26 +15,34 @@ container_image(
 
 k8s_object(
     name = "configmap",
-    cluster = "minikube",
+    cluster = "{STABLE_CLUSTER}",
     kind = "ConfigMap",
     template = "config-map.yaml",
 )
 
-k8s_object(
-    name = "volume",
-    cluster = "minikube",
-    kind = "PersistentVolumeClaim",
-    template = "volume.yaml",
+# TODO postgresql persistance
+# k8s_object(
+#     name = "volume",
+#     cluster = "{STABLE_CLUSTER}",
+#     kind = "PersistentVolumeClaim",
+#     template = "volume.yaml",
+# )
+
+load("@pipeline_demo//util/ytt:run.bzl","ytt")
+
+ytt(
+    name = "deployment-ytt",
+    file = ":deployment.yaml",
 )
 
 k8s_object(
     name = "deployment",
-    cluster = "minikube",
+    cluster = "{STABLE_CLUSTER}",
     kind = "Deployment",
     images = {
         "{STABLE_REGISTRY}/posgresql:dev": ":image",
     },
-    template = "deployment.yaml",
+    template = ":deployment-ytt",
 )
 
 load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")
@@ -43,7 +51,7 @@ k8s_objects(
     name = "app",
     objects = [
         ":configmap",
-        ":volume",
+        # ":volume",
         ":deployment",
     ],
     visibility = ["//visibility:public"],

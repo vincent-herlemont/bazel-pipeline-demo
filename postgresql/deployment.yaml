@@ -35,10 +35,14 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-config
-      #     volumeMounts:
-      #       - mountPath: /var/lib/postgresql/data
-      #         name: postgredb
-      # volumes:
-      #   - name: postgredb
-      #     persistentVolumeClaim:
-      #       claimName: postgres-pv-claim
+      #@ if ${STABLE_REGISTRY_AUTH}:
+      imagePullSecrets:
+        - name: registry-secret
+      #@ end
+      #!     volumeMounts:
+      #!       - mountPath: /var/lib/postgresql/data
+      #!         name: postgredb
+      #! volumes:
+      #!   - name: postgredb
+      #!     persistentVolumeClaim:
+      #!      claimName: postgres-pv-claim

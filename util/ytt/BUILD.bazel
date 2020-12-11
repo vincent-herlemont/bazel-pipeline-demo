@@ -1,0 +1,6 @@
+py_binary(
+    name = "expand_template",
+    main = "expand_template.py",
+    srcs = ["expand_template.py"],
+    visibility = ["//visibility:public"],
+)

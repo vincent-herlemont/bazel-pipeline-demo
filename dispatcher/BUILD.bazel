@@ -25,16 +25,23 @@ go_image(
     binary = ":dispatcher",
 )
 
+load("@pipeline_demo//util/ytt:run.bzl","ytt")
+
+ytt(
+    name = "deployment-ytt",
+    file = ":deployment.yaml",
+)
+
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 
 k8s_object(
     name = "deployment",
-    cluster = "minikube",
+    cluster = "{STABLE_CLUSTER}",
     images = {
         "{STABLE_REGISTRY}/dispatcher:dev": "//dispatcher:image",
     },
     kind = "Deployment",
-    template = "deployment.yaml",
+    template = ":deployment-ytt",
 )
 
 load("@io_bazel_rules_k8s//k8s:objects.bzl", "k8s_objects")

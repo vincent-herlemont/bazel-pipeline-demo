@@ -20,3 +20,7 @@ spec:
               value: "dispatcher"
             - name: DISPATCHER_PORT
               value: "8080"
+      #@ if ${STABLE_REGISTRY_AUTH}:
+      imagePullSecrets:
+        - name: registry-secret
+      #@ end
