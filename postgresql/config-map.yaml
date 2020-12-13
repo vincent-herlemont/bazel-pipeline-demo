@@ -7,4 +7,4 @@ metadata:
 data:
   POSTGRES_DB: data
   POSTGRES_USER: postgresadmin
-  POSTGRES_PASSWORD: admin123
+  POSTGRES_PASSWORD: "${STABLE_POSTGRES_PASSWORD}"

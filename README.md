@@ -69,6 +69,8 @@ Add this env variables to your `.bashrc` or `.profil` or others init shell file.
 export REGISTRY=docker.local:5000/pipeline-demo
 export CLUSTER=minikube
 export REGISTRY_AUTH=False
+export POSTGRES_PASSWORD=admin123
+export RABBITMQ_DEFAULT_PASS=guest
 ```
 
 - Build all `$> bazel build //...`

@@ -13,11 +13,18 @@ container_image(
     },
 )
 
+load("@pipeline_demo//util/ytt:run.bzl","ytt")
+
+ytt(
+    name = "config-map-ytt",
+    file = ":config-map.yaml",
+)
+
 k8s_object(
     name = "configmap",
     cluster = "{STABLE_CLUSTER}",
     kind = "ConfigMap",
-    template = "config-map.yaml",
+    template = ":config-map-ytt",
 )
 
 # TODO postgresql persistance
