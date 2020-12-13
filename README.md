@@ -1,6 +1,69 @@
+
+
+# Goal
+
+<img align="left" width="200" src="doc/img/bazel.png">
+
+Provide a full example with bazel and multi-languages of a simple data pipeline with sensors, consumers, queues, dispatchers, databases, api, front.
+The choices of languages and technology apart from bazel are arbitrary.
+
+<br />
+<br />
+
+ - Live Demo <br />
+
+<img align="left" width="100" src="doc/img/scaleway.png">
+
+[8631fdac-7d58-45ac-974f-c0f2171ac1a2.nodes.k8s.fr-par.scw.cloud](http://8631fdac-7d58-45ac-974f-c0f2171ac1a2.nodes.k8s.fr-par.scw.cloud/)
+
+<p align="center">
+  <a href="http://8631fdac-7d58-45ac-974f-c0f2171ac1a2.nodes.k8s.fr-par.scw.cloud/"><img width="100%" src="doc/img/screen-pipeline-demo.png"></a>
+</p>
+
+# Services
+
+Each service corresponds to a folder at the root repository. 
+
+<img align="left" width="50%" src="doc/img/data-stream.png">
+
+- `./senror` Go : Send an random number to dispatcher.
+
+- `./dispatcher` Go : Wait data from sensor(s) and send them to rabbitmqp.
+
+- `./rabbitmq` Rabbitmq services
+
+- `./consumer` Rust : Retrieved from rabbitmqp store data to Postgresql.
+
+- `./postgresql` Postgresql services
+
+- `./graphql` Node/Apollo : Create api from Postgresql data.
+
+- `./web` (JS & Node) : Display data from graphql endpoint. (Can be outsourced of the cluster, hosted by Vercel for example).
+
+<br /><br /><br />
+<br /><br /><br />
+<br /><br /><br />
+
+## Bazel one command for all code deliveries steps.
+
+Bazel allow to describe and bring together all steps of code delivery 
+with multiple languages.
+
+<p align="center">
+  <a href="#"><img width="80%" src="doc/img/from-code-tun.png"></a>
+</p>
+
 # Install
 
 - Install [bazel](https://docs.bazel.build/versions/master/install.html) and [ibazel](https://github.com/bazelbuild/bazel-watcher) for live reload.
+
+Add this env variables to your `.bashrc` or `.profil` or others init shell file.
+
+```bash
+export REGISTRY=docker.local:5000/pipeline-demo
+export CLUSTER=minikube
+export REGISTRY_AUTH=False
+```
 
 - Build all `$> bazel build //...`
 
@@ -87,58 +150,17 @@ ready - started server on http://localhost:3000
 ...
 ```
 
-## Rust
+### Rust
 
 Add dependencies
 - Add dependecies to `Cargo.toml`
 - Run `cargo raze` in the package folder
 
-# TODO
+### Go 
 
-- [X] (go,bazel) connect to golang app dispatcher
-- [X] (k8s) set up statefull postgresql
-
----
-
-- [x] (python,bazel,k8s) Test ? / Integration test
-- [x] (go,bazel) Unit test
-- [x] (bazel) Run all test
-
----
-
-- [x] (bazel,js) JS client standalone.
-- [x] (bazel,react) Install react or nextjs.
-  - NextJS
-    - [x] Create a build and deployment production workflow with command `next build` + `next start` and package to image.
-    - [x] Create development workflow
----
-
-- [x] (k8s) set up stateless rabbitmq.
-- [x] (rust,bazel) create consumer service.
-
----
-
-- [x] (apollo,js) create graphql endpoint
-
----
-
-- [x] (go) convert sensor job to service.
-- [x] (rust,go) auto reconnection to rabbitmq for consumer and dispatcher servicies
-- [x] (rust) auto reconnection to postgresql for consumer service
-- [ ] set postgresql cron for delete
-
----
-
-- [ ] (apollo,postgres,js) pub/sub
-
-
-# Drawing
-
-- `./senror` Go : Send data to dispatcher.
-- `./dispatcher` Go : Wait data from sensor(s) and send them to rabbitmqp.
-- `./consumer` Rust : Retrieved from rabbitmqp store data to Postgresql.
-- `./graphql` Node/Apollo : Create api from Postgresql data.
-- `./web` (JS & Node) : Display data from graphql endpoint. (Can be outsourced of the cluster, hosted by Vercel for example).
+Add dependencies
+- Add dependencies to `go.mod`
+- Run `bazel run //:gazelle -- update-repos -from_file=<service directory>/go.mod`
 
 ## Tools
 
@@ -170,5 +192,5 @@ Commands:
 Lock file update and generation have to do manually, emaple with `front` package.
 ```bash
 cd ./front/
-npm i --package-lock-only`
+npm i --package-lock-only
 ```
