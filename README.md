@@ -4,8 +4,7 @@
 
 <img align="left" width="200" src="doc/img/bazel.png">
 
-Provide a full example with Bazel with multi-languages of a simple data pipeline with sensors, consumers, queues, dispatchers, databases, api, front.
-The choices of languages and technology apart from bazel are arbitrary.
+Provide a full Bazel example using multi-languages of a simple data pipeline with sensors, consumers, queues, dispatchers, databases, api(back), web(front). The choices of languages and technologies apart from bazel are arbitrary.
 
 <br />
 <br />
