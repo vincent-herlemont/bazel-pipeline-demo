@@ -1,16 +1,33 @@
 load("@io_bazel_rules_k8s//k8s:object.bzl", "k8s_object")
 load("@io_bazel_rules_docker//container:container.bzl", "container_image")
+load("@io_bazel_rules_docker//docker/util:run.bzl", "container_run_and_commit")
 
+container_run_and_commit(
+    name = "pre_build_image",
+    commands = [
+        "apt-get update",
+        "apt-get -y install postgresql-13-cron",
+        "apt-get clean",
+    ],
+    image = "@postgres//image",
+)
+
+container_image(
+    name = "build_image",
+    base = ":pre_build_image",
+    files = [
+        ":01-install.sh",
+        ":02-init.sql",
+    ],
+    symlinks = {
+        "/docker-entrypoint-initdb.d/01-install.sh": "/01-install.sh",
+        "/docker-entrypoint-initdb.d/02-init.sql": "/02-init.sql",
+    },
+)
 
 container_image(
     name = "image",
-    base = "@postgres//image",
-    files = [
-        ":init.sql",
-    ],
-    symlinks = {
-        "/docker-entrypoint-initdb.d/init.sql": "/init.sql",
-    },
+    base = ":build_image",
 )
 
 load("@pipeline_demo//util/ytt:run.bzl","ytt")
