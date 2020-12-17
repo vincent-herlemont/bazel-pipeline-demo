@@ -1,5 +1,5 @@
 use std::env;
-use lapin::Consumer;
+
 
 #[derive(Debug)]
 pub struct AmqpCfg {
@@ -36,7 +36,7 @@ mod test {
         env::set_var("AMQP_PORT","5672");
         env::set_var("AMQP_USER","guest");
         env::set_var("AMQP_PASSWORD","pwd");
-        let amqpCfg = AmqpCfg::new();
-        assert_eq!("amqp://guest:pwd@localhost:5672/%2f", amqpCfg.url());
+        let amqp_cfg = AmqpCfg::new();
+        assert_eq!("amqp://guest:pwd@localhost:5672/%2f", amqp_cfg.url());
     }
 }

@@ -9,14 +9,14 @@ extern crate log;
 extern crate lapin;
 extern crate thiserror;
 
-use lapin::{Connection, ConnectionProperties, types::FieldTable, BasicProperties};
+use lapin::{Connection, ConnectionProperties, types::FieldTable};
 use std::env;
-use lapin::options::{QueueDeclareOptions, BasicPublishOptions, BasicConsumeOptions, BasicAckOptions, BasicCancelOptions, BasicRejectOptions};
-use lapin::message::DeliveryResult;
-use std::str::from_utf8;
+use lapin::options::{BasicConsumeOptions, BasicAckOptions, BasicRejectOptions};
+
+
 use futures::executor;
-use std::thread::sleep;
-use std::time::Duration;
+
+
 use crate::amqp::AmqpCfg;
 use crate::pg::PgCfg;
 use postgres::{Client, NoTls};
@@ -57,7 +57,7 @@ fn main() -> Result<()> {
 
     info!("create receive channel ok");
 
-    let mut consumer = receive.basic_consume(
+    let consumer = receive.basic_consume(
         "data",
         "",
         BasicConsumeOptions::default(),
