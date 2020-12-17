@@ -20,15 +20,6 @@ spec:
                   number: 3000
     - http:
         paths:
-          - path: /test
-            pathType: Prefix
-            backend:
-              service:
-                name: dispatcher
-                port:
-                  number: 8080
-    - http:
-        paths:
           - path: /graphql
             pathType: Prefix
             backend:
