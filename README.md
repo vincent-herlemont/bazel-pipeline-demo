@@ -110,14 +110,6 @@ NAME            CLASS    HOSTS   ADDRESS        PORTS   AGE
 nginx-ingress   <none>   *       192.168.49.2   80      13m
 ``` 
 
-- Test 
-```bash
-# Command :
-$> curl http://192.168.49.2
-# Ouput : 
-Golang dispatcher !!
-```
-
 
 ## Tests
 
