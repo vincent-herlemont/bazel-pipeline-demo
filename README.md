@@ -15,14 +15,8 @@ In this repository you can found an integration between Bazel and these technolo
   <a href="#"><img width="70%" src="doc/img/technos.png"></a>
 </p>
 
- - Live Demo <br />
-
-<img align="left" width="100" src="doc/img/scaleway.png">
-
-[8631fdac-7d58-45ac-974f-c0f2171ac1a2.nodes.k8s.fr-par.scw.cloud](http://8631fdac-7d58-45ac-974f-c0f2171ac1a2.nodes.k8s.fr-par.scw.cloud/)
-
 <p align="center">
-  <a href="http://8631fdac-7d58-45ac-974f-c0f2171ac1a2.nodes.k8s.fr-par.scw.cloud/"><img width="100%" src="doc/img/screen-pipeline-demo.png"></a>
+  <img width="100%" src="doc/img/screen-pipeline-demo.png">
 </p>
 
 # Services
