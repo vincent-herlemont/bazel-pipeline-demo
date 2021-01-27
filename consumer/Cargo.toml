@@ -4,7 +4,7 @@ version = "0.0.1"
 edition = "2018"
 
 [dependencies]
-log = { version = "0.4.11", features = ["std"] }
+log = { version = "0.4.14", features = ["std"] }
 env_logger = "0.8.2"
 lapin = { version = "1.6.1", features = ["openssl"]}
 futures = "0.3.8"
