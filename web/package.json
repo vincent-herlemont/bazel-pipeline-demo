@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
-    "graphql": "^15.4.0",
+    "graphql": "^15.5.0",
     "install": "^0.13.0",
     "lodash": "^4.17.20",
     "next": "10.0.3",
