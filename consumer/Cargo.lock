@@ -478,9 +478,9 @@ checksum = "dc6f3ad7b9d11a0c00842ff8de1b60ee58661048eb8049ed33c73594f359d7e6"
 
 [[package]]
 name = "lapin"
-version = "1.6.1"
+version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a04173b1524419f51c00c2f0f0e7b52bb9cd2e5bd9ea030da8bee086bda7e7b2"
+checksum = "f6633c37ab4f89b855f255d4b8a29a95f92d0ab7724d0b5576d3b6363dea60f7"
 dependencies = [
  "amq-protocol",
  "async-task",
